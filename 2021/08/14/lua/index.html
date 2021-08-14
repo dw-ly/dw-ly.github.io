@@ -6,15 +6,15 @@
   
   <title>Lua学习记录 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="一.字符串 1.从字符串里提取数字 1res,_ &#x3D; str:gsub(&quot;%D+&quot;,&quot;&quot;) —more2.将字符串以某某字符分隔开并放入table中 string库的gsub函数，共三个参数：   str是待分割的字符串  &#39;[^&#39;..reps..&#39;]+&#39;是正则表达式，查找非reps字符，并且多次匹配  每次分割完的字符串都能">
+  <meta name="description" content="一.字符串 1.从字符串里提取数字 1res,_ &#x3D; str:gsub(&quot;%D+&quot;,&quot;&quot;)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Lua学习记录">
 <meta property="og:url" content="http://example.com/2021/08/14/lua/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="一.字符串 1.从字符串里提取数字 1res,_ &#x3D; str:gsub(&quot;%D+&quot;,&quot;&quot;) —more2.将字符串以某某字符分隔开并放入table中 string库的gsub函数，共三个参数：   str是待分割的字符串  &#39;[^&#39;..reps..&#39;]+&#39;是正则表达式，查找非reps字符，并且多次匹配  每次分割完的字符串都能">
+<meta property="og:description" content="一.字符串 1.从字符串里提取数字 1res,_ &#x3D; str:gsub(&quot;%D+&quot;,&quot;&quot;)">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2021-08-14T04:48:06.741Z">
-<meta property="article:modified_time" content="2021-08-14T04:48:06.741Z">
+<meta property="article:published_time" content="2021-08-14T04:54:40.569Z">
+<meta property="article:modified_time" content="2021-08-14T04:54:40.569Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
   
@@ -76,7 +76,7 @@
         <section id="main"><article id="post-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
   <div class="article-meta">
     <a href="/2021/08/14/lua/" class="article-date">
-  <time class="dt-published" datetime="2021-08-14T04:48:06.741Z" itemprop="datePublished">2021-08-14</time>
+  <time class="dt-published" datetime="2021-08-14T04:54:40.569Z" itemprop="datePublished">2021-08-14</time>
 </a>
     
   </div>
@@ -98,7 +98,8 @@
         <p>一.字符串</p>
 <p>1.从字符串里提取数字</p>
 <figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res,_ = str:<span class="built_in">gsub</span>(<span class="string">&quot;%D+&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
-<p>—more<br>2.将字符串以某某字符分隔开并放入table中</p>
+<span id="more"></span>
+<p>2.将字符串以某某字符分隔开并放入table中</p>
 <p>string库的gsub函数，共三个参数： </p>
 <ol>
 <li>str是待分割的字符串 </li>
