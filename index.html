@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  
+  <title>Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://example.com/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:locale" content="en_US">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/favicon.png">
+  
+  
+    
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/typeface-source-code-pro@0.0.71/index.min.css">
+
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  
+    
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.min.css">
+
+  
+<meta name="generator" content="Hexo 5.4.0"></head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://example.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+
+      <div class="outer">
+        <section id="main">
+  
+    <article id="post-lua" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/08/14/lua/" class="article-date">
+  <time class="dt-published" datetime="2021-08-14T04:35:54.239Z" itemprop="datePublished">2021-08-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/08/14/lua/">Lua学习记录</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>一.字符串</p>
+<p>1.从字符串里提取数字</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">res,_ = str:<span class="built_in">gsub</span>(<span class="string">&quot;%D+&quot;</span>,<span class="string">&quot;&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>2.将字符串以某某字符分隔开并放入table中</p>
+<p>string库的gsub函数，共三个参数： </p>
+<ol>
+<li>str是待分割的字符串 </li>
+<li><code>&#39;[^&#39;..reps..&#39;]+&#39;</code>是正则表达式，查找非reps字符，并且多次匹配 </li>
+<li>每次分割完的字符串都能通过回调函数获取到，w参数就是分割后的一个子字符串，把它保存到一个table中</li>
+</ol>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">split</span><span class="params">( str,reps )</span></span></span><br><span class="line">    <span class="keyword">local</span> resultStrList = &#123;&#125;</span><br><span class="line">    <span class="built_in">string</span>.<span class="built_in">gsub</span>(str,<span class="string">&#x27;[^&#x27;</span>..reps..<span class="string">&#x27;]+&#x27;</span>,<span class="function"><span class="keyword">function</span> <span class="params">( w )</span></span></span><br><span class="line">        <span class="built_in">table</span>.<span class="built_in">insert</span>(resultStrList,w)</span><br><span class="line">    <span class="keyword">end</span>)</span><br><span class="line">    <span class="keyword">return</span> resultStrList</span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<p>3.将字符串转化为table</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:<span class="built_in">gsub</span>(<span class="string">&quot;.&quot;</span>,<span class="function"><span class="keyword">function</span><span class="params">(c)</span></span> <span class="built_in">table</span>.<span class="built_in">insert</span>(save,c) <span class="keyword">end</span>)</span><br></pre></td></tr></table></figure>
+
+<p>其中str是待转换的字符串，save为转换后的table</p>
+<p>4.table以某种格式拼接成一个字符串</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str=<span class="built_in">table</span>.<span class="built_in">concat</span>(mtable,t)</span><br></pre></td></tr></table></figure>
+
+<p>str为返回的拼接好的字符串，mtable为待拼接table，t为拼接规则，如：t=”-“字符串将以“-”连接每一个table元素而生成。</p>
+<p>5.gmatch</p>
+<p>5.1逐个返回字符串中字符</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:<span class="built_in">gmatch</span>(<span class="string">&#x27;.&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>5.2逐个返回符合要求的字符</p>
+<p>例：与任何字母匹配多次</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">str:<span class="built_in">gmatch</span>(<span class="string">&#x27;%a+&#x27;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>二.运算符</p>
+<p>实现其他语言中的condition ? result1 : result2三元运算符</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> isAppel = <span class="literal">false</span></span><br><span class="line"><span class="built_in">print</span>(isAppel <span class="keyword">and</span> <span class="string">&quot;苹果&quot;</span> <span class="keyword">or</span> <span class="string">&quot;梨&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>三.table表</p>
+<p>1.可以通过如下方式初始化一个多层的table，这样就不需要一层一层if not table  then table = {} end创建了 </p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> tmp_table = &#123;</span><br><span class="line">	a = &#123;</span><br><span class="line">		tmp1 = <span class="number">1</span>,</span><br><span class="line">        tmp2 = <span class="number">2</span></span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>2.lua中table和其他数据类型不一样的一点在于<strong>table的赋值是传引用</strong>，相当于指针a将地址传给指针b，而他们所指向的内容都是一样的</p>
+<p>例：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> table_x = &#123;</span><br><span class="line">	tmp1 = <span class="string">&quot;lua&quot;</span>,</span><br><span class="line">	tmp2 = <span class="number">1</span></span><br><span class="line">&#125;</span><br><span class="line">table_y = table_x</span><br><span class="line">table_x.tmp1 = <span class="string">&quot;test&quot;</span></span><br><span class="line"><span class="built_in">print</span>(table_y.tmp1)</span><br><span class="line"><span class="comment">--输出结果为：test</span></span><br></pre></td></tr></table></figure>
+
+<p>3.震惊了，着实没有想到lua中可以进行的对于table的一系列操作，table也可以作为key值。</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">local</span> m_table = &#123;</span><br><span class="line">    tmp1 = <span class="number">1</span>,</span><br><span class="line">    tmp2 = <span class="number">2</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">local</span> test_table = &#123;&#125;</span><br><span class="line">test_table[m_table] = <span class="number">233</span></span><br><span class="line"><span class="built_in">print</span>(test_table[m_table])</span><br><span class="line"><span class="comment">--输出结果为：233</span></span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/08/14/lua/" data-id="cksbapwgx0000tim12zwogpj3" data-title="Lua学习记录" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+    <article id="post-hello-world" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-meta">
+    <a href="/2021/08/01/hello-world/" class="article-date">
+  <time class="dt-published" datetime="2021-08-01T04:24:47.866Z" itemprop="datePublished">2021-08-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="p-name article-title" href="/2021/08/01/hello-world/">Hello World</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+        <p>Welcome to <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a>! This is your very first post. Check <a target="_blank" rel="noopener" href="https://hexo.io/docs/">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a target="_blank" rel="noopener" href="https://hexo.io/docs/troubleshooting.html">troubleshooting</a> or you can ask me on <a target="_blank" rel="noopener" href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo new <span class="string">&quot;My New Post&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/writing.html">Writing</a></p>
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/server.html">Server</a></p>
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/generating.html">Generating</a></p>
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
+
+<p>More info: <a target="_blank" rel="noopener" href="https://hexo.io/docs/one-command-deployment.html">Deployment</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://example.com/2021/08/01/hello-world/" data-id="ckrsprna50000i1m14fr58u7f" data-title="Hello World" class="article-share-link">Share</a>
+      
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+
+  
+
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2021/08/">August 2021</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2021/08/14/lua/">Lua学习记录</a>
+          </li>
+        
+          <li>
+            <a href="/2021/08/01/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      
+      &copy; 2021 John Doe<br>
+      Powered by <a href="https://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+
+<script src="/js/jquery-3.4.1.min.js"></script>
+
+
+
+  
+<script src="/fancybox/jquery.fancybox.min.js"></script>
+
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+
+
+  </div>
+</body>
+</html>
