@@ -494,7 +494,7 @@
       
           <hr>
 <h2 id="typora-copy-images-to-images"><a href="#typora-copy-images-to-images" class="headerlink" title="typora-copy-images-to:../../images"></a>typora-copy-images-to:../../images</h2><p>[TOC]</p>
-<h4 id="一-rabbitmq"><a href="#一-rabbitmq" class="headerlink" title="一.rabbitmq"></a>一.rabbitmq</h4><h5 id="1-结构"><a href="#1-结构" class="headerlink" title="1.结构"></a>1.结构</h5><p><img src="../../images/webp.webp" alt="img"></p>
+<h4 id="一-rabbitmq"><a href="#一-rabbitmq" class="headerlink" title="一.rabbitmq"></a>一.rabbitmq</h4><h5 id="1-结构"><a href="#1-结构" class="headerlink" title="1.结构"></a>1.结构</h5><p><img src="/../../images/webp.webp" alt="img"></p>
 <p>1）Message<br> 消息，消息是不具名的，它由消息头和消息体组成。消息体是不透明的，而消息头则由一系列的可选属性组成，这些属性包括routing-key（路由键）、priority（相对于其他消息的优先权）、delivery-mode（指出该消息可能需要持久性存储）等。</p>
 <p>Publisher<br> 消息的生产者，也是一个向交换器发布消息的客户端应用程序。</p>
 <p>Exchange<br> 交换器，用来接收生产者发送的消息并将这些消息路由给服务器中的队列。</p>
@@ -502,7 +502,7 @@
 <p>Queue<br> 消息队列，用来保存消息直到发送给消费者。它是消息的容器，也是消息的终点。一个消息可投入一个或多个队列。消息一直在队列里面，等待消费者连接到这个队列将其取走。</p>
 <p>Connection<br> 网络连接，比如一个TCP连接。</p>
 <p>Channel<br> 信道，多路复用连接中的一条独立的双向数据流通道。信道是建立在真实的TCP连接内地虚拟连接，AMQP 命令都是通过信道发出去的，不管是发布消息、订阅队列还是接收消息，这些动作都是通过信道完成。因为对于操作系统来说建立和销毁 TCP 都是非常昂贵的开销，所以引入了信道的概念，以复用一条 TCP 连接。</p>
-<p><img src="../../images/channel.png" alt="img"></p>
+<p><img src="/../../images/channel.png" alt="img"></p>
 <p>​                                                                          <a target="_blank" rel="noopener" href="https://blog.csdn.net/pmdream/article/details/104780392">图源</a></p>
 <p>Consumer<br> 消息的消费者，表示一个从消息队列中取得消息的客户端应用程序。</p>
 <p>Virtual Host<br> 虚拟主机，表示一批交换器、消息队列和相关对象。虚拟主机是共享相同的身份认证和加密环境的独立服务器域。每个 vhost 本质上就是一个 mini 版的 RabbitMQ 服务器，拥有自己的队列、交换器、绑定和权限机制。vhost 是 AMQP 概念的基础，必须在连接时指定，RabbitMQ 默认的 vhost 是 / 。</p>
@@ -510,15 +510,15 @@
 <h5 id="2-AMQP中消息路由"><a href="#2-AMQP中消息路由" class="headerlink" title="2.AMQP中消息路由"></a>2.AMQP中消息路由</h5><blockquote>
 <p>AMQP新增了Exchange和Binding。<br>生产者把消息发布到 Exchange 上，消息最终到达队列并被消费者接收，而 Binding 决定交换器的消息应该发送到那个队列。</p>
 </blockquote>
-<p><img src="../../images/producer.png" alt="img"></p>
+<p><img src="/../../images/producer.png" alt="img"></p>
 <h5 id="3-exchange类型"><a href="#3-exchange类型" class="headerlink" title="3.exchange类型"></a>3.exchange类型</h5><blockquote>
 <p>Exchange分发消息时根据类型的不同分发策略有区别。<br>目前共四种类型：direct、fanout、topic、headers 。headers 匹配 AMQP 消息的 header 而不是路由键，此外 headers 交换器和 direct 交换器完全一致，但性能差很多，目前几乎用不到了。</p>
 </blockquote>
-<h6 id="3-1-direct"><a href="#3-1-direct" class="headerlink" title="3.1 direct"></a>3.1 direct</h6><p><img src="../../images/direct" alt="img"></p>
+<h6 id="3-1-direct"><a href="#3-1-direct" class="headerlink" title="3.1 direct"></a>3.1 direct</h6><p><img src="/../../images/direct" alt="img"></p>
 <p>消息中的路由键（routing key）如果和 Binding 中的 binding key 一致， 交换器就将消息发到对应的队列中。路由键与队列名完全匹配，如果一个队列绑定到交换机要求路由键为“dog”，则只转发 routing key 标记为“dog”的消息，不会转发“dog.puppy”，也不会转发“dog.guard”等等。它是完全匹配、单播的模式。</p>
-<h6 id="3-2-fanout"><a href="#3-2-fanout" class="headerlink" title="3.2 fanout"></a>3.2 fanout</h6><p><img src="../../images/fanout" alt="img"></p>
+<h6 id="3-2-fanout"><a href="#3-2-fanout" class="headerlink" title="3.2 fanout"></a>3.2 fanout</h6><p><img src="/../../images/fanout" alt="img"></p>
 <p>每个发到 fanout 类型交换器的消息都会分到所有绑定的队列上去。fanout 交换器不处理路由键，只是简单的将队列绑定到交换器上，每个发送到交换器的消息都会被转发到与该交换器绑定的所有队列上。很像子网广播，每台子网内的主机都获得了一份复制的消息。fanout 类型转发消息是最快的。</p>
-<h6 id="3-3-topic"><a href="#3-3-topic" class="headerlink" title="3.3 topic"></a>3.3 topic</h6><p><img src="../../images/webp-16463651414284.webp" alt="img"></p>
+<h6 id="3-3-topic"><a href="#3-3-topic" class="headerlink" title="3.3 topic"></a>3.3 topic</h6><p><img src="/../../images/webp-16463651414284.webp" alt="img"></p>
 <p>topic 交换器通过模式匹配分配消息的路由键属性，将路由键和某个模式进行匹配，此时队列需要绑定到一个模式上。它将路由键和绑定键的字符串切分成单词，这些单词之间用点隔开。它同样也会识别两个通配符：符号“#”和符号“<em>”。#匹配0个或多个单词，</em>匹配不多不少一个单词。</p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/79ca08116d57">消息队列之 RabbitMQ</a></p>
 <h5 id="4-消息确认"><a href="#4-消息确认" class="headerlink" title="4.消息确认"></a>4.消息确认</h5><h6 id="4-1消息发送确认"><a href="#4-1消息发送确认" class="headerlink" title="4.1消息发送确认"></a>4.1消息发送确认</h6><p>场景</p>
@@ -604,7 +604,7 @@
 <blockquote>
 <p>通过Guarented Multicasting(GM)同步到各个Salve节点，Coodinator负责组播结果的确认。</p>
 </blockquote>
-<p><img src="../../images/rabbitmq_cluster.png" alt="img"></p>
+<p><img src="/../../images/rabbitmq_cluster.png" alt="img"></p>
 <blockquote>
 <p>GM的主播并不是由Master节点来负责通知所有Slave的（目的是为了避免Master压力过大，同时避免Master失效导致消息无法最终Ack)，RabbitMQ把一个镜像队列的所有节点组成一个链表，由主拷贝发起，由主拷贝最终确认通知到了所有的Slave，而中间由Slave接力的方式进行消息传播。</p>
 </blockquote>
