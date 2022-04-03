@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"sunhebin.github.io","root":"/","scheme":"Muse","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="typora-copy-images-to:..&#x2F;..&#x2F;images[TOC] 一.计算机储存结构金字塔结构中越靠近塔尖速度更快，成本更高  二.储存单元和寄存器变量1234567891011121314&#x2F;&#x2F; 写入到dest，从src读入 void write_read(long *src, long *dst, long n) &amp;#123;     long cnt &#x3D; n;     long">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五离央">
+<meta property="og:url" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%BB%84/cpu%E7%BC%93%E5%AD%98%E5%86%85%E5%AD%98/index.html">
+<meta property="og:site_name" content="第五离央">
+<meta property="og:description" content="typora-copy-images-to:..&#x2F;..&#x2F;images[TOC] 一.计算机储存结构金字塔结构中越靠近塔尖速度更快，成本更高  二.储存单元和寄存器变量1234567891011121314&#x2F;&#x2F; 写入到dest，从src读入 void write_read(long *src, long *dst, long n) &amp;#123;     long cnt &#x3D; n;     long">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/ad7f67473e7c2abcd43825f677a6899a.png">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/v2-113d6c45bf12d7eb05270031fa475a95_720w.jpg">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/image-20220218100919404.png">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/image-20220218100706661.png">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NzUxNDM3,size_16,color_FFFFFF,t_70.png">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/cache2.png">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/cache.png">
+<meta property="og:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/L1CacheExample.png">
+<meta property="article:published_time" content="2022-04-03T09:00:49.335Z">
+<meta property="article:modified_time" content="2022-04-03T09:00:49.351Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/ad7f67473e7c2abcd43825f677a6899a.png">
+
+<link rel="canonical" href="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%BB%84/cpu%E7%BC%93%E5%AD%98%E5%86%85%E5%AD%98/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title> | 第五离央</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">第五离央</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="https://sunhebin.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%BB%84/cpu%E7%BC%93%E5%AD%98%E5%86%85%E5%AD%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="第五离央">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 2022-04-03 17:00:49" itemprop="dateCreated datePublished" datetime="2022-04-03T17:00:49+08:00">2022-04-03</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <hr>
+<h2 id="typora-copy-images-to-images"><a href="#typora-copy-images-to-images" class="headerlink" title="typora-copy-images-to:../../images"></a>typora-copy-images-to:../../images</h2><p>[TOC]</p>
+<h4 id="一-计算机储存结构"><a href="#一-计算机储存结构" class="headerlink" title="一.计算机储存结构"></a>一.计算机储存结构</h4><p>金字塔结构中越靠近塔尖速度更快，成本更高</p>
+<p><img src="../../images/ad7f67473e7c2abcd43825f677a6899a.png" alt="ad7f67473e7c2abcd43825f677a6899a.png"></p>
+<h4 id="二-储存单元和寄存器变量"><a href="#二-储存单元和寄存器变量" class="headerlink" title="二.储存单元和寄存器变量"></a>二.储存单元和寄存器变量</h4><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 写入到dest，从src读入 </span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">write_read</span><span class="params">(<span class="keyword">long</span> *src, <span class="keyword">long</span> *dst, <span class="keyword">long</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">long</span> cnt = n; </span><br><span class="line">    <span class="keyword">long</span> val = <span class="number">0</span>; </span><br><span class="line">    <span class="keyword">while</span> (cnt) &#123; </span><br><span class="line">	    <span class="comment">// 写内存, 把val的变量值，写入到dst指针指向的内存空间 </span></span><br><span class="line">        *dst = val; </span><br><span class="line">        <span class="comment">// 读内存, 读取src指针指向的内存空间，并且加1后保存到变量val </span></span><br><span class="line">        val = (*src) + <span class="number">1</span>; </span><br><span class="line">        cnt--; </span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>数组a[-10,17]<br>例1：write_read(&amp;a[0], &amp;a[1]),3);</p>
+<p>观察while执行发现第三次迭代相比第二次迭代，不会对数组a的数据的产生变动。于是第3次迭代的过程就没有必要去写内存（不执行Store操作）</p>
+<p>CPU具体实现方式：使用存储单元(Store Unit)。存储单元每个缓冲区,都包括了将要写入到内存的数据，数据结构由内存地址和具体的数据构成。我们用一对括号表示(内存地址，数据)。</p>
+<p><img src="../../images/v2-113d6c45bf12d7eb05270031fa475a95_720w.jpg" alt="img"></p>
+<p>例2：write_read(&amp;a[0], &amp;a[0]),3);</p>
+<p>调用函数的前两个参数引用均为a[0]，每次迭代都会改变数组a[0]的值，每次都会对内存进行先写后读。</p>
+<blockquote>
+<p>CPU没办法对这种进行情况就行优化，而且因为指针<em>dest和</em>src指向同一个内存位置。<strong>读写的地址相同，所以每次读的操作，都必须等待上一条写(Load操作)完成</strong>。这种特殊的现象，我们称之为**写/读相关(write/read dependency)**。对于完全支持流水线（pipeline)技术的CPU而言，这种等待, 会造成浪费时间。而前面的示例1就没有这种等待，它们的指令可以进入流水线并行。</p>
+</blockquote>
+<p>也就是读写同一地址时，读操作需要等待写操作完成，导致无法并行执行。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">psum1</span><span class="params">(<span class="keyword">float</span> a[], <span class="keyword">float</span> p[], <span class="keyword">long</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">long</span> i; </span><br><span class="line">    p[<span class="number">0</span>] = a[<span class="number">0</span>]; </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; n; i++) </span><br><span class="line">        p[i] = p[i<span class="number">-1</span>]+a[i]; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">psum2</span><span class="params">(<span class="keyword">float</span> a[], <span class="keyword">float</span> p[], <span class="keyword">long</span> n)</span> </span></span><br><span class="line"><span class="function"></span>&#123; </span><br><span class="line">    <span class="keyword">long</span> i; </span><br><span class="line">    p[<span class="number">0</span>] = a[<span class="number">0</span>]; </span><br><span class="line">    <span class="keyword">float</span> last_val = p[<span class="number">0</span>] = a[<span class="number">0</span>]; </span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i &lt; n; i++) </span><br><span class="line">        val =last_val+a[i]; p[i] = val; last_val = val; </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>相比psum1，psum2 在上一次循环中记忆了p[i]的值，保存在last_val变量中，留给下个迭代使用，避免了Load操作。<strong>局部变量使用了寄存器，而不会去读内存，提高性能。</strong></p>
+<p>参考文章：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/443474348">理解CPU的Load和Store操作</a></p>
+<p>参考文献：《CS:APP》</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;time.h&gt;</span></span></span><br><span class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> std;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span>;</span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">clock_t</span> startTime,endTime;</span><br><span class="line">        startTime = <span class="built_in">clock</span>();<span class="comment">//计时开始</span></span><br><span class="line">        <span class="built_in">func1</span>();</span><br><span class="line">        endTime = <span class="built_in">clock</span>();<span class="comment">//计时结束</span></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;The func1 run time is: &quot;</span> &lt;&lt;(<span class="keyword">double</span>)(endTime - startTime) / CLOCKS_PER_SEC &lt;&lt; <span class="string">&quot;s&quot;</span> &lt;&lt; endl;</span><br><span class="line">        startTime = <span class="built_in">clock</span>();<span class="comment">//计时开始</span></span><br><span class="line">        <span class="built_in">func2</span>();</span><br><span class="line">        endTime = <span class="built_in">clock</span>();<span class="comment">//计时结束</span></span><br><span class="line">        cout &lt;&lt; <span class="string">&quot;The func2 run time is: &quot;</span> &lt;&lt;(<span class="keyword">double</span>)(endTime - startTime) / CLOCKS_PER_SEC &lt;&lt; <span class="string">&quot;s&quot;</span> &lt;&lt; endl;</span><br><span class="line">        <span class="built_in">system</span>(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func1</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">register</span> <span class="keyword">int</span> temp, i;</span><br><span class="line">        <span class="keyword">int</span> p=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> ( i=<span class="number">0</span>; i&lt;=<span class="number">30000</span>; i++ )</span><br><span class="line">                <span class="keyword">for</span> ( temp=<span class="number">0</span>; temp&lt;=<span class="number">100</span>; temp++ );</span><br><span class="line">        <span class="comment">//              p++;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">func2</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> temp, i;</span><br><span class="line">        <span class="keyword">int</span> p=<span class="number">0</span>;</span><br><span class="line">        <span class="keyword">for</span> ( i=<span class="number">0</span>; i&lt;=<span class="number">30000</span>; i++ )</span><br><span class="line">                <span class="keyword">for</span> ( temp=<span class="number">0</span>; temp&lt;=<span class="number">100</span>; temp++ ) ;</span><br><span class="line">          <span class="comment">//              p++;</span></span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>func函数中对p变量执行++操作时会对cpu执行load操作</p>
+<p>执行时间如下：</p>
+<p><img src="../../images/image-20220218100919404.png" alt="image-20220218100919404"></p>
+<p>注释掉p++后执行时间如下：</p>
+<p><img src="../../images/image-20220218100706661.png" alt="image-20220218100706661"></p>
+<h4 id="三-缓存"><a href="#三-缓存" class="headerlink" title="三.缓存"></a>三.缓存</h4><h5 id="1-定义"><a href="#1-定义" class="headerlink" title="1.定义"></a>1.定义</h5><blockquote>
+<p>高速缓存是一个小而快速的存储设备 ，它作为存储在更大更慢的设 备中的数据对象的缓冲区域。使用高速缓存的过程称为缓存 。</p>
+</blockquote>
+<h5 id="2-出现原因"><a href="#2-出现原因" class="headerlink" title="2.出现原因"></a>2.出现原因</h5><blockquote>
+<p>缓存又叫高速缓存，是计算机存储器中的一种，本质上和硬盘是一样的，都是用来存储数据和指令的 。它们最大的区别在于读取速度的不同。<br>程序一般是放在内存中的，当CPU执行程序的时候，执行完一条指令需要从内存中读取下一条指令，读取内存中的指令要花费100000个时钟周期（缓存读取速度为200个时钟周期，相差500倍）<br>于是，有人就提出了这样一种方法，在CPU和内存之间添加一个高速内存， 这个高速内存容量小，只用来存储CPU执行时常用的指令。既保证了硬件成本，又提高了CPU的访问速度。这个高速内存就是缓存（高速缓存）。</p>
+</blockquote>
+<h5 id="3-分类"><a href="#3-分类" class="headerlink" title="3.分类"></a>3.分类</h5><blockquote>
+<p>CPU缓存有<strong>多级缓存</strong>，比如L1, L2, L3等：<br>L1容量最小，速度最快，<strong>每个核都有L1缓存</strong>，L1又专门针对指令和数据分成<strong>L1d(数据缓存)</strong>,<strong>L1i(指令缓存)<strong>。<br>L2容量比L1大，速度比L1慢，</strong>每个核都有L2缓存</strong>。<br>L3容量最大，速度最慢，<strong>多个核共享一个L3缓存</strong>。</p>
+</blockquote>
+<p><img src="../../images/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzM5NzUxNDM3,size_16,color_FFFFFF,t_70.png" alt="å¨è¿éæå¥å¾çæè¿°"></p>
+<blockquote>
+<p>下图所示为 Intel Core i7处理器的高速缓存层次结构。每个CPU芯片有四个核。每个核有自己的L1 i-cache， L1 d-cache和L2统一的高速缓存。所有的核共享片上L3统一的高速缓存。其具体参数如下表所示。</p>
+</blockquote>
+<p><img src="../../images/cache2.png" alt="9420faa5b7dea1274b95ec32af5a5b1a.png"></p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_35748962/article/details/113048716?spm=1001.2101.3001.6650.13&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-13.pc_relevant_default&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~Rate-13.pc_relevant_default&utm_relevant_index=20">c++ 缓存和缓冲_24张图7000字详解计算机中的高速缓存</a></p>
+<p>4.cpu访问</p>
+<blockquote>
+<p>cpu从来都不直接访问内存, 都是通过cache间接访问内存，每次访问内存时先查看cache中是否有对应地址的数据，如果cache中没有则先分配一个cache entry，然后再把内存中的数据copy到刚刚分配的cache entry的cache line中，再从cache line中读取数据。</p>
+</blockquote>
+<p><img src="../../images/cache.png"></p>
+<p>5.扩展</p>
+<p>优化</p>
+<blockquote>
+<p>分块的大小与cpu cache line关系？<br>如果我们访问内存时，先把数据读取到CPU缓存cache line再计算，而下次读取到该数据时直接使用缓存（若未被淘汰掉），修改cpu cache line这个数值,数据字节对齐可能决定一次操作接触1个还是2个缓存行</p>
+</blockquote>
+<blockquote>
+<p>避免伪共享的问题？<br>当多线程修改互相独立的变量（一般出现在全局变量或者一些动态申请的内存）时，如果这些变量共享同一个缓存行，那么当某个核修改缓存行某个变量值时，需要锁定缓存行，同时其他核已经加载该缓存行的cache也跟着失效，需要重新从内存读取。提到 cache line 往往会提到伪共享，也就是多核 CPU 的多线程编程中，每个线程虽然都访问自己本地的变量，没有使用任何线程同步锁，但由于这些变量在一个 cache line 上，也会造成 cache miss，导致性能严重下降。可以通过内存对齐使多线程之间不共享 cache line，以达到优化的目的。其中一个解决思路，就是让不同线程操作的对象处于不同的缓存行即可。</p>
+</blockquote>
+<p>参考:<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_39751437/article/details/106373306?spm=1001.2101.3001.6650.5&utm_medium=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~HighlightScore-5.queryctrv2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~BlogCommendFromBaidu~HighlightScore-5.queryctrv2&utm_relevant_index=8">c++缓存优化</a></p>
+<p>6.缓存一致性（MESI协议）</p>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/reliveIT/article/details/50450136">【并发编程】CPU cache结构和缓存一致性（MESI协议）</a></p>
+<p>必读经典文章：<a target="_blank" rel="noopener" href="https://coolshell.cn/articles/20793.html">与程序员相关的CPU缓存知识</a></p>
+<p>四.CPU缓存</p>
+<p>1.cache line</p>
+<p>CPU一次性加载的数据大小</p>
+<blockquote>
+<p>比如：Cache Line是最小单位（64Bytes），所以先把Cache分布多个Cache Line，比如：L1有32KB，那么，32KB/64B = 512 个 Cache Line。</p>
+</blockquote>
+<p>2.CPU Associativity</p>
+<p>CPU cache放置策略</p>
+<blockquote>
+<p>因为Cache的大小远远小于内存，所以，需要有一种地址关联的算法，能够让内存中的数据可以被映射到Cache中来。</p>
+</blockquote>
+<p>3.N-Way关联</p>
+<blockquote>
+<p>把连续的N个Cache Line绑成一组，然后，先把找到相关的组，然后再在这个组内找到相关的Cache Line。</p>
+</blockquote>
+<blockquote>
+<p>32KB的可以分成，32KB / 64 = 512 条 Cache Line。<br>因为有8 Way，于是会每一Way 有 512 / 8 = 64 条 Cache Line。<br>于是每一路就有 64 x 64 = 4096 Byts 的内存。</p>
+</blockquote>
+<p>4.索引内存地址</p>
+<blockquote>
+<p><strong>Tag</strong>：每条 Cache Line 前都会有一个独立分配的 24 bits来存的 tag，其就是内存地址的前24bits<br><strong>Index</strong>：内存地址后续的6个bits则是在这一Way的是Cache Line 索引，2^6 = 64 刚好可以索引64条Cache Line<br><strong>Offset</strong>：再往后的6bits用于表示在Cache Line 里的偏移量.</p>
+</blockquote>
+<p><img src="../../images/L1CacheExample.png" alt="img"></p>
+<p>如图：横向位8个way，每个way有纵向所示64条cacheline，每条cacheline的结构如上所述。</p>
+<p>当CPU访问某一个内存的时候，先通过中间6bit <strong>index</strong>来定位哪一个set（理解：8路关联时8条cacheline为一组，中间6bit索引组号），通过前24bit定位相应cacheline。</p>
+<p>另：处理器位数指的是一个时钟周期内，处理器处理的<a target="_blank" rel="noopener" href="https://zhidao.baidu.com/question/1775020547399362780.html">二进制代码数</a>。</p>
+<blockquote>
+<p>所谓32位处理器就是一次只能处理32位，也就是4个字节的数据，而64位处理器一次就能处理64位，即8个字节的数据。如果我们将总长128位的指令分别按照16位、32位、64位为单位进行编辑的话：旧的16位处理器，比如Intel 80286 CPU需要8个指令，32位的处理器需要4个指令，而64位处理器则只要两个指令，显然，在工作频率相同的情况下，64位处理器的处理速度会比16位、32位的更快。</p>
+</blockquote>
+<p>5.缓存一致性</p>
+<p><a target="_blank" rel="noopener" href="https://www.scss.tcd.ie/Jeremy.Jones/VivioJS/caches/MESIHelp.htm">CPU缓存演示</a></p>
+<p>6.示例程序</p>
+<h4 id="四-缓存与内存"><a href="#四-缓存与内存" class="headerlink" title="四.缓存与内存"></a>四.缓存与内存</h4><p><strong>64位系统默认对齐为8位</strong></p>
+<p><strong>32位系统默认对齐为4位</strong></p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%B7%A5%E5%85%B7%E5%87%BD%E6%95%B0/%E8%8E%B7%E5%BE%97%E9%9A%8F%E6%9C%BA%E6%95%B0/" rel="prev" title="">
+      <i class="fa fa-chevron-left"></i> 
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E8%AE%A1%E7%BB%84/cpu%E7%BC%93%E5%AD%98/" rel="next" title="">
+       <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#typora-copy-images-to-images"><span class="nav-number">1.</span> <span class="nav-text">typora-copy-images-to:..&#x2F;..&#x2F;images</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80-%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%82%A8%E5%AD%98%E7%BB%93%E6%9E%84"><span class="nav-number">1.0.1.</span> <span class="nav-text">一.计算机储存结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8C-%E5%82%A8%E5%AD%98%E5%8D%95%E5%85%83%E5%92%8C%E5%AF%84%E5%AD%98%E5%99%A8%E5%8F%98%E9%87%8F"><span class="nav-number">1.0.2.</span> <span class="nav-text">二.储存单元和寄存器变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89-%E7%BC%93%E5%AD%98"><span class="nav-number">1.0.3.</span> <span class="nav-text">三.缓存</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-%E5%AE%9A%E4%B9%89"><span class="nav-number">1.0.3.1.</span> <span class="nav-text">1.定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-%E5%87%BA%E7%8E%B0%E5%8E%9F%E5%9B%A0"><span class="nav-number">1.0.3.2.</span> <span class="nav-text">2.出现原因</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#3-%E5%88%86%E7%B1%BB"><span class="nav-number">1.0.3.3.</span> <span class="nav-text">3.分类</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9B-%E7%BC%93%E5%AD%98%E4%B8%8E%E5%86%85%E5%AD%98"><span class="nav-number">1.0.4.</span> <span class="nav-text">四.缓存与内存</span></a></li></ol></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">28</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://muse.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>
