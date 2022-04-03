@@ -27,15 +27,15 @@
 <meta property="og:site_name" content="第五离央">
 <meta property="og:description" content="多线程内容">
 <meta property="og:locale" content="en_US">
-<meta property="og:image" content="https://dw-ly.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/pthread_cond_t.png">
-<meta property="og:image" content="https://dw-ly.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/image-20220221181244316.png">
-<meta property="og:image" content="https://dw-ly.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/format,png">
+<meta property="og:image" content="https://dw-ly.github.io/2022/04/03/images/pthread_cond_t.png">
+<meta property="og:image" content="https://dw-ly.github.io/2022/04/03/images/image-20220221181244316.png">
+<meta property="og:image" content="https://dw-ly.github.io/2022/04/03/images/format,png">
 <meta property="article:published_time" content="2022-04-03T09:00:48.479Z">
-<meta property="article:modified_time" content="2022-04-03T16:46:24.866Z">
+<meta property="article:modified_time" content="2022-04-03T17:12:09.504Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="多线程">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://dw-ly.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/images/pthread_cond_t.png">
+<meta name="twitter:image" content="https://dw-ly.github.io/2022/04/03/images/pthread_cond_t.png">
 
 <link rel="canonical" href="https://dw-ly.github.io/2022/04/03/1-%E5%9F%BA%E7%A1%80%E7%9F%A5%E8%AF%86/%E5%A4%9A%E7%BA%BF%E7%A8%8B/">
 
@@ -185,7 +185,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">Edited on</span>
-                <time title="Modified: 2022-04-04 00:46:24" itemprop="dateModified" datetime="2022-04-04T00:46:24+08:00">2022-04-04</time>
+                <time title="Modified: 2022-04-04 01:12:09" itemprop="dateModified" datetime="2022-04-04T01:12:09+08:00">2022-04-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -238,7 +238,7 @@
 
 
 
-<p><img src="../images/pthread_cond_t.png" alt="pthread_cond_t"></p>
+<p><img src="../../images/pthread_cond_t.png" alt="pthread_cond_t"></p>
 <p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42374938/article/details/119208570?spm=1001.2101.3001.6650.1&utm_medium=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.pc_relevant_paycolumn_v2&depth_1-utm_source=distribute.pc_relevant.none-task-blog-2~default~CTRLIST~default-1.pc_relevant_paycolumn_v2&utm_relevant_index=2">条件变量</a></p>
 <p>扩展：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xudong-bupt/p/6707070.html">linux C++ 多线程使用pthread_cond 条件变量</a></p>
 <h6 id="6-线程取消"><a href="#6-线程取消" class="headerlink" title="6).线程取消"></a>6).线程取消</h6><figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//发送终止信号给thread线程,如果成功则返回0</span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_cancel</span><span class="params">(<span class="keyword">pthread_t</span> thread)</span>；</span></span><br><span class="line"><span class="function"><span class="comment">//设置本线程对Cancel信号的反应</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_setcancelstate</span><span class="params">(<span class="keyword">int</span> state, <span class="keyword">int</span> *oldstate)</span>；</span></span><br><span class="line"><span class="function"><span class="comment">//设置本线程取消动作的执行时机</span></span></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">pthread_setcanceltype</span><span class="params">(<span class="keyword">int</span> type, <span class="keyword">int</span> *oldtype)</span>；</span></span><br><span class="line"><span class="function"><span class="comment">//检查本线程是否处于Cancel状态，如果是，则进行取消动作，否则直接返回</span></span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">pthread_testcancel</span><span class="params">(<span class="keyword">void</span>)</span>；</span></span><br></pre></td></tr></table></figure>
@@ -337,7 +337,7 @@
 <p>优化参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/venice0708/article/details/82760879">基于C++11 thread实现线程池</a></p>
 <p>参考：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/xiaoshiwang/p/9912004.html">c/c++ 多线程 unique_lock的使用</a></p>
 <p>运行结果:</p>
-<p><img src="../images/image-20220221181244316.png" alt="image-20220221181244316"></p>
+<p><img src="../../images/image-20220221181244316.png" alt="image-20220221181244316"></p>
 <h4 id="五-补充"><a href="#五-补充" class="headerlink" title="五.补充"></a>五.补充</h4><p>c++11中thread线程补充内容：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014673282/article/details/89209405">C++11多线程：thread头文件</a></p>
 <h4 id="六-Sleep-0"><a href="#六-Sleep-0" class="headerlink" title="六.Sleep(0)"></a>六.Sleep(0)</h4><h5 id="1-Sleep函数作用"><a href="#1-Sleep函数作用" class="headerlink" title="1.Sleep函数作用"></a>1.Sleep函数作用</h5><p>​        Sleep函数的作用是告诉操作系统“在未来的多少毫秒内我不参与CPU竞争“。并不是说结束该段时间后立刻就能获得CPU，还是需要通过竞争得到CPU使用权。<br>​        Sleep(0)的作用就是”触发操作系统立刻重新进行一次CPU竞争“</p>
 <h5 id="2-线程状态与Sleep"><a href="#2-线程状态与Sleep" class="headerlink" title="2.线程状态与Sleep"></a>2.线程状态与Sleep</h5><p>​        线程未退出之前有三种状态，<strong>就绪态</strong>，<strong>运行态</strong>，<strong>等待态</strong>。而Sleep(n)之后，线程就会由运行态转入等待态，线程被放入等待队列中，当达到n秒后线程才重新由等待态转入就绪态，被放入就绪队列中。<br>​        等待队列中的线程不参与CPU竞争，只有就绪队列中的线程才参与，而<strong>CPU调度</strong>，就是根据一定算法（优先级、FIFO等），从就绪队列中选择一个线程来分配CPU时间。<br>​        sleep(0)会直接回到就绪队列参与CPU竞争，而不是进入等待队列中。</p>
@@ -372,7 +372,7 @@
 <h4 id="八-多线程中堆栈问题"><a href="#八-多线程中堆栈问题" class="headerlink" title="八.多线程中堆栈问题"></a>八.多线程中堆栈问题</h4><p>1.多线程环境堆栈分配情况</p>
 <p>1）每个线程一个栈，每个进程一个堆。</p>
 <p>2）不同的段可能被加载器映射到相距很遥远的位置。如下典型内存分配图</p>
-<p><img src="../images/format,png" alt="img"></p>
+<p><img src="../../images/format,png" alt="img"></p>
 <p>扩展：    </p>
 <blockquote>
 <p>1.变量在内存地址的分布为：堆-栈-代码区-全局静态-常量数据<br>2.同一区域的各变量按声明的顺序在内存的中依次由低到高分配空间（只有未赋值的全局变量是个例外）。<br>3.全局变量和静态变量如果不赋值，默认为0。 栈中的变量如果不赋值，则是一个随机的数据。<br>4.编译器会认为全局变量和静态变量是等同的，已初始化的全局变量和静态变量分配在一起，未初始化的全局变量和静态变量分配在另一起。</p>
