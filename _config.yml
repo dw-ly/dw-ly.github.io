@@ -106,3 +106,6 @@ deploy:
         type: git
         repo: git@github.com:dw-ly/dw-ly.github.io.git
         branch: test
+marked:
+  prependRoot: true
+  postAsset: true
