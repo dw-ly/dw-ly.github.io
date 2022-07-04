@@ -123,37 +123,11 @@
 </script>
             <div class="main">
                 <div class="container">
-    
-    
-
-    
-    <article class="post-wrap">
-        <header class="post-header">
-            <h1 class="post-title">NAS文件服务</h1>
-            
-                <div class="post-meta">
-                    
-                        Author: <a itemprop="author" rel="author" href="/">John Doe</a>
-                    
-
-                    
-                        <span class="post-time">
-                        Date: <a href="#">April 19, 2022&nbsp;&nbsp;1:19:54</a>
-                        </span>
-                    
-                    
-                        <span class="post-category">
-                    Category:
-                            
-                                <a href="/categories/NAS/">NAS</a>
-                            
-                        </span>
-                    
-                </div>
-            
-        </header>
-
-        <div class="post-content">
+    <article class="post-wrap page">
+        
+        <h2 class="post-title">NAS文件服务</h2>
+        
+        <section class="post-content">
             <p>想在Ubuntu系统下使用docker部署seafile服务</p>
 <figure class="highlight yml"><table><tr><td class="code"><pre><code class="hljs yml"><span class="hljs-attr">version:</span> <span class="hljs-string">&#x27;2.0&#x27;</span><br><span class="hljs-attr">services:</span><br>  <span class="hljs-attr">db:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">mariadb:10.1</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">seafile-mysql</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">MYSQL_ROOT_PASSWORD=db_dev</span>  <span class="hljs-comment"># Requested, set the root&#x27;s password of MySQL service.</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">MYSQL_LOG_CONSOLE=true</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/opt/seafile-mysql/db:/var/lib/mysql</span>  <span class="hljs-comment"># Requested, specifies the path to MySQL data persistent store.</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">seafile-net</span><br><br>  <span class="hljs-attr">memcached:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">memcached:1.5.6</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">seafile-memcached</span><br>    <span class="hljs-attr">entrypoint:</span> <span class="hljs-string">memcached</span> <span class="hljs-string">-m</span> <span class="hljs-number">256</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">seafile-net</span><br><br>  <span class="hljs-attr">seafile:</span><br>    <span class="hljs-attr">image:</span> <span class="hljs-string">seafileltd/seafile-mc:latest</span><br>    <span class="hljs-attr">container_name:</span> <span class="hljs-string">seafile</span><br>    <span class="hljs-attr">ports:</span><br>            <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;80:80&quot;</span> <br>            <span class="hljs-bullet">-</span> <span class="hljs-string">&quot;8000:8000&quot;</span><br><span class="hljs-comment">#            - &quot;443:443&quot;  # If https is enabled, cancel the comment.</span><br>    <span class="hljs-attr">volumes:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">/opt/seafile-data:/shared</span>   <span class="hljs-comment"># Requested, specifies the path to Seafile data persistent store.</span><br>    <span class="hljs-attr">environment:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_HOST=db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">DB_ROOT_PASSWD=db_dev</span>  <span class="hljs-comment"># Requested, the value shuold be root&#x27;s password of MySQL service.</span><br><span class="hljs-comment">#      - TIME_ZONE=Asia/Shanghai # Optional, default is UTC. Should be uncomment and set to your local time zone.</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">SEAFILE_ADMIN_EMAIL=me@example.com</span> <span class="hljs-comment">#可以修改为自己的邮箱 #Specifies Seafile admin user, default is &#x27;me@example.com&#x27;.</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">SEAFILE_ADMIN_PASSWORD=asecret</span>     <span class="hljs-comment">#可以修改为自己的密码 #Specifies Seafile admin password, default is &#x27;asecret&#x27;.</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">SEAFILE_SERVER_LETSENCRYPT=</span> <span class="hljs-literal">false</span>  <span class="hljs-comment">#false即可 # Whether to use https or not.</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">SEAFILE_SERVER_HOSTNAME=</span> <span class="hljs-string">http://localhost</span> <span class="hljs-comment">#修改为自己的服务器网址或IP地址 # Specifies your host name if https is enabled.</span><br>    <span class="hljs-attr">depends_on:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">db</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">memcached</span><br>    <span class="hljs-attr">networks:</span><br>      <span class="hljs-bullet">-</span> <span class="hljs-string">seafile-net</span><br><span class="hljs-attr">networks:</span><br>  <span class="hljs-attr">seafile-net:</span><br><br></code></pre></td></tr></table></figure>
 
@@ -163,60 +137,7 @@
 <p>​        使用yml配置的账号密码进入seafile管理页面，修改此两处URL。即可进行文件上传下载访问。参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42289214/article/details/119107011">docker部署seafile</a></p>
 <p><img src="/2022/04/19/NAS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/seafile.png" alt="seafile1"></p>
 
-        </div>
-
-        
-            <section class="post-copyright">
-                
-                    <p class="copyright-item">
-                        <span>Author:</span>
-                        <span>John Doe</span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>Permalink:</span>
-                        <span><a href="https://dw-ly.github.io/2022/04/19/NAS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/">https://dw-ly.github.io/2022/04/19/NAS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/</a></span>
-                    </p>
-                
-                
-                    <p class="copyright-item">
-                        <span>License:</span>
-                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
-                    </p>
-                
-                
-                     <p class="copyright-item">
-                         <span>Slogan:</span>
-                         <span>Do you believe in <strong>DESTINY</strong>?</span>
-                     </p>
-                
-
-            </section>
-        
-        <section class="post-tags">
-            <div>
-                <span>Tag(s):</span>
-                <span class="tag">
-                    
-                </span>
-            </div>
-            <div>
-                <a href="javascript:window.history.back();">back</a>
-                <span>· </span>
-                <a href="/">home</a>
-            </div>
         </section>
-        <section class="post-nav">
-            
-                <a class="prev" rel="prev" href="/2022/06/20/%E4%BB%8Esocket%E5%88%B0reactor%E6%A8%A1%E5%9E%8B/">网络IO</a>
-            
-            
-            <a class="next" rel="next" href="/2022/04/11/rabbitmq%E5%9F%BA%E7%A1%80/">rabbitmq基础</a>
-            
-        </section>
-
-
     </article>
 </div>
 
