@@ -2,7 +2,7 @@
 title: 完美转发
 categories:
  - c++
-description: c+完美转发
+description: c++完美转发
 ---
 
 ##### 1.万能引用
