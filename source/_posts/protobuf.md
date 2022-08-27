@@ -1,8 +1,12 @@
 ---
 title: protobuf
-categories:
+category:
+ - 学习
+tag:
  - linux
+ - thirdparty
 description: protobuf
+
 ---
 # 安装指定版本的protobuf
 

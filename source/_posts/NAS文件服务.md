@@ -1,8 +1,11 @@
 ---
 title: NAS文件服务
-categories:
+category:
+ - NAS
+tag:
  - NAS
 description: docker部署seafile服务
+
 ---
 想在Ubuntu系统下使用docker部署seafile服务
 

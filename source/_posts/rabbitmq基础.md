@@ -1,8 +1,11 @@
 ---
 title: rabbitmq基础
-categories:
- - 消息队列之rabbitmq
+category:
+ - 学习
+tag:
+ - 中间件
 description: rabbitmq基础知识总结
+
 ---
 ​       首先，rabbitmq是一种消息队列中间件，由生产者(produce)，消费者(consumer)和rabbitmq服务构成，其中，一个rabbitmq服务的实例称之为brocker,一个brocker又由交换机(exchange)，队列(queue)和他们的绑定关系(bind)组成。一条消息从生产者发送到brocker，再从brocker发送到消费者，是通过生产者和brocker以及消费者之间建立的Tcp连接，但是并不是直接使用某一条Tcp连接(connection)，而是通过在连接上又抽象出来的信道(channel)来进行传输的。信道(channel)是对Tcp连接的复用。
 

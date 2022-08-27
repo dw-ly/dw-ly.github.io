@@ -8,7 +8,7 @@ subtitle: ''
 description: ''
 keywords:
 author: dw-ly
-language: en
+language: zh-CN #en
 timezone: ''
 
 # URL
@@ -24,9 +24,9 @@ pretty_urls:
 # Directory
 source_dir: source
 public_dir: public
-tag_dir: tags
+tag_dir: tag
 archive_dir: archives
-category_dir: categories
+category_dir: category
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
@@ -86,7 +86,7 @@ updated_option: 'mtime'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
-per_page: 9# 10
+per_page: 9 # 10
 pagination_dir: page
 
 # Include / Exclude file(s)

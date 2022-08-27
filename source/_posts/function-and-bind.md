@@ -1,8 +1,12 @@
 ---
 title: function
-categories:
+category:
+ - 学习
+tag:
  - c++
 description: function
+
+
 ---
 
 #### 一.std::function
