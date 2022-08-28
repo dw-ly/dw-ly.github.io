@@ -3,7 +3,7 @@ title: NAS文件服务
 category:
  - NAS
 tag:
- - NAS
+ - seafile
 description: docker部署seafile服务
 
 ---

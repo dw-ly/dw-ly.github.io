@@ -1,10 +1,10 @@
 ---
-title: function
+title: function和bind
 category:
- - 学习
+ - 学习笔记
 tag:
  - c++
-description: function
+description: function和bind
 
 
 ---

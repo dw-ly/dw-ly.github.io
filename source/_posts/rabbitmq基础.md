@@ -1,7 +1,7 @@
 ---
 title: rabbitmq基础
 category:
- - 学习
+ - 学习笔记
 tag:
  - 中间件
 description: rabbitmq基础知识总结
