@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="dw-ly">
+
+
+
+
+
+<title>rabbitmq基础 | 第五离央</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Bentham&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Bentham&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">rabbitmq基础</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">dw-ly</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 28, 2022&nbsp;&nbsp;21:20:43</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>​       首先，rabbitmq是一种消息队列中间件，由生产者(produce)，消费者(consumer)和rabbitmq服务构成，其中，一个rabbitmq服务的实例称之为brocker,一个brocker又由交换机(exchange)，队列(queue)和他们的绑定关系(bind)组成。一条消息从生产者发送到brocker，再从brocker发送到消费者，是通过生产者和brocker以及消费者之间建立的Tcp连接，但是并不是直接使用某一条Tcp连接(connection)，而是通过在连接上又抽象出来的信道(channel)来进行传输的。信道(channel)是对Tcp连接的复用。</p>
+<h4 id="brocker组成"><a href="#brocker组成" class="headerlink" title="brocker组成"></a>brocker组成</h4><p>​        在brocker中，首先要创建交换机和队列，给创建好的交换机指定<strong>路由类型</strong>，然后将队列绑定到交换机并指定交换机和队列的<strong>绑定关系</strong>(bindingKey)。其中，交换机常用的路由类型有三种，分别是Direct，Fanout以及Topic。Direct会将消息路由到根据routingKey匹配到的一个队列，Fanout会将消息路由到该交换机绑定的所有队列，而Topic会根据一定的匹配规则匹配到任意个数的特定队列并将消息路由过去。<br>​        关于三种路由规则可以从匹配模式上进一步理解：其实这三者最终结果都是routingKey通过一定规则匹配到队列的bindingKey。Direct是全字符匹配，Fanout是任意匹配，Topic是模糊匹配，其中Topic提供了两个匹配符”*“和”#”，”*“只匹配<strong>一个单词</strong>，而”#”可以匹配**任意个单词(包括0和1)**。在rabbitmq中，通过”.”来将Key分割为多个单词，例如”test.test”。举个例子，假设brocker上某一个队列的bingdingKey为”A.test”，绑定了该队列的Direct交换机只能通过”A.test”这一routingKey才能路由到该队列，Fanout交换机可以通过任意routingKey路由到该队列,Topic交换机可以设置bindingKey为”*.test”， “A.*“，”#.test”，”A.#”等，从而使满足匹配模式的routingKey路由到该队列。例如： bindingKey为”A.*“时可以路由的routingKey为”A.test”，”A.dev”等，bindingKey为”*.test”时可以路由的routingKey为”A.test”，”B.test”等。</p>
+<p><img src="/2022/08/28/rabbitmq%E5%9F%BA%E7%A1%80/direct.png" alt="direct模式"></p>
+<p>​                                                                                        图1</p>
+<p><img src="/2022/08/28/rabbitmq%E5%9F%BA%E7%A1%80/fanout.png" alt="fanout模式"></p>
+<p>​                                                                                        图2</p>
+<p><img src="/2022/08/28/rabbitmq%E5%9F%BA%E7%A1%80/topic.png" alt="topic模式"></p>
+<p>​                                                                                         图3</p>
+<h4 id="消息可靠性保证"><a href="#消息可靠性保证" class="headerlink" title="消息可靠性保证"></a>消息可靠性保证</h4><p>​        有了以上机制，生产者通过信道发送消息时携带指定的交换机和routingKey信息,就可以将消息发送到指定的队列上去。但是要想保证消息能够被正确接收，还需要依赖rabbitmq的事务模式或Confirm发送方确认模式。<br>​        confirm确认模式分为普通确认和批量确认两种模式，当开启confirm普通确认模式时，每个发送到brocker的消息会带有一个唯一的消息编号Tag，下标从1开始，每个信道是独立计数的，在brocker确认某一Tag的消息已收到后,会返回该Tag消息的ack到其发送到brocker的信道。生产者收到该消息的ack就可以确认该消息已到达brocker。(注意：这个确认某一消息收到判断的条件随brocker类型变化而有所不同，例如：当brocker是一个镜像集群，在消息同步到所有需要同步的节点之后brocker才认为消息已收到)批量确认原理与普通确认相同，不过是一次性ack多条消息，比如某一信道发送了1，2，3，4，5五条消息，brocker可能会在收到全部消息后直接对5进行ack，代表前五条消息brocker都已收到。<br>​        以上两种确认模式在生产者发送消息到brocker和brocker发送到消费者都可以使用，但是在brocker发送到消费者时，消费者收到消息后还需要对消息进行消费，然后再根据消费结果返回ack/nack(手动ack)。以上过程可以理解为同步确认模式，除此之外还可以采用异步消息确认模式，即收到消息就对消息进行ack(自动ack)，然后再对消息进行处理，但是这种模式可能会导致在消息处理失败时，brocker已经将该条消息删除了，从而无法重新消费。(注意：生产者发送到brocker也可以采用异步确认，但是同样有可能由于消息在brocker同步失败导致消息丢失)。另外当开启requeue后，消息消费如果失败，消息会被放回队首重新消费，可能导致无序。</p>
+<p>参考：</p>
+<p><a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_43498985/article/details/119026198">RabbitMQ原理详解</a></p>
+<p><a target="_blank" rel="noopener" href="https://mp.weixin.qq.com/s/adse6qpIiK0RE-Ebo-z5_Q">入门RabbitMQ，这一篇绝对够！</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/63700605">透彻rabbitmq</a></p>
+<p>其他：</p>
+<p><a href="tryrabbitmq.com/">rabbitmq模拟器</a></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>dw-ly</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://dw-ly.github.io/2022/08/28/rabbitmq%E5%9F%BA%E7%A1%80/">https://dw-ly.github.io/2022/08/28/rabbitmq%E5%9F%BA%E7%A1%80/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/%E4%B8%AD%E9%97%B4%E4%BB%B6/"># 中间件</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/08/28/protobuf/">protobuf</a>
+            
+            
+            <a class="next" rel="next" href="/2022/08/28/%E4%BB%8Esocket%E5%88%B0reactor%E6%A8%A1%E5%9E%8B/">网络IO</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© dw-ly | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

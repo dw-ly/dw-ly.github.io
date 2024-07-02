@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="dw-ly">
+
+
+
+
+
+<title>NAS文件服务 | 第五离央</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Bentham&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Bentham&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">NAS文件服务</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">dw-ly</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 28, 2022&nbsp;&nbsp;21:20:43</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/NAS/">NAS</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <p>想在Ubuntu系统下使用docker部署seafile服务</p>
+<pre class="line-numbers language-yml" data-language="yml"><code class="language-yml">version: &#39;2.0&#39;
+services:
+  db:
+    image: mariadb:10.1
+    container_name: seafile-mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD&#x3D;db_dev  # Requested, set the root&#39;s password of MySQL service.
+      - MYSQL_LOG_CONSOLE&#x3D;true
+    volumes:
+      - &#x2F;opt&#x2F;seafile-mysql&#x2F;db:&#x2F;var&#x2F;lib&#x2F;mysql  # Requested, specifies the path to MySQL data persistent store.
+    networks:
+      - seafile-net
+
+  memcached:
+    image: memcached:1.5.6
+    container_name: seafile-memcached
+    entrypoint: memcached -m 256
+    networks:
+      - seafile-net
+
+  seafile:
+    image: seafileltd&#x2F;seafile-mc:latest
+    container_name: seafile
+    ports:
+            - &quot;80:80&quot; 
+            - &quot;8000:8000&quot;
+#            - &quot;443:443&quot;  # If https is enabled, cancel the comment.
+    volumes:
+      - &#x2F;opt&#x2F;seafile-data:&#x2F;shared   # Requested, specifies the path to Seafile data persistent store.
+    environment:
+      - DB_HOST&#x3D;db
+      - DB_ROOT_PASSWD&#x3D;db_dev  # Requested, the value shuold be root&#39;s password of MySQL service.
+#      - TIME_ZONE&#x3D;Asia&#x2F;Shanghai # Optional, default is UTC. Should be uncomment and set to your local time zone.
+      - SEAFILE_ADMIN_EMAIL&#x3D;me@example.com #可以修改为自己的邮箱 #Specifies Seafile admin user, default is &#39;me@example.com&#39;.
+      - SEAFILE_ADMIN_PASSWORD&#x3D;asecret     #可以修改为自己的密码 #Specifies Seafile admin password, default is &#39;asecret&#39;.
+      - SEAFILE_SERVER_LETSENCRYPT&#x3D; false  #false即可 # Whether to use https or not.
+      - SEAFILE_SERVER_HOSTNAME&#x3D; http:&#x2F;&#x2F;localhost #修改为自己的服务器网址或IP地址 # Specifies your host name if https is enabled.
+    depends_on:
+      - db
+      - memcached
+    networks:
+      - seafile-net
+networks:
+  seafile-net:
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+
+<p>​        参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1a2c60e3f118">Docker SeaFile快速部署</a>添加docker-compose.yml如上，注意需要页面访问需要服务器防火墙开放80端口，并且80端口不能被其他服务(如apache等)占用，除此之外要开放8082端口客户端才能下载文件。(或许可以修改默认端口，使用其他端口来访问seafile服务)。貌似是因为yml文件开头使用的version为2，所以采用的python版本为python2，可能会产生一些python的兼容问题。</p>
+<p>​        参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/25d73135fb66">seafile-pro专业版docker-compose安装</a>中的<a target="_blank" rel="noopener" href="https://links.jianshu.com/go?to=https://customer.seafile.com/downloads/">https://customer.seafile.com/downloads/</a>登录(未确定是否必要–TODO)</p>
+<p>​        执行了<code>sudo docker-compose up -d</code>启动后还需要通过<code>docker exec -it docker_id /bin/bash</code>进入docker,<code>cd /opt/seafile/seafile-server-9.0.4</code>进入seafile文件夹执行<code>./seafile.sh start</code>启动seafile服务。</p>
+<p>​        使用yml配置的账号密码进入seafile管理页面，修改此两处URL。即可进行文件上传下载访问。参考<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_42289214/article/details/119107011">docker部署seafile</a></p>
+<p><img src="/2022/08/28/NAS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/seafile.png" alt="seafile1"></p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>dw-ly</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://dw-ly.github.io/2022/08/28/NAS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/">https://dw-ly.github.io/2022/08/28/NAS%E6%96%87%E4%BB%B6%E6%9C%8D%E5%8A%A1/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/seafile/"># seafile</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2024/07/02/stl%E8%BF%AD%E4%BB%A3%E5%99%A8/"></a>
+            
+            
+            <a class="next" rel="next" href="/2022/08/28/function-and-bind/">function和bind</a>
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© dw-ly | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>

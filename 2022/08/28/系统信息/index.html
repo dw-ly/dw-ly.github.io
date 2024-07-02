@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="dw-ly">
+
+
+
+
+
+<title>系统信息分析 | 第五离央</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/script.js"></script>
+    
+    <script src="/js/tocbot.min.js"></script>
+    
+
+
+
+    
+    
+        
+    
+
+
+<meta name="generator" content="Hexo 5.4.1"></head>
+
+<body>
+    <script>
+        // this function is used to check current theme before page loaded.
+        (() => {
+            const currentTheme = window.localStorage && window.localStorage.getItem('theme') || '';
+            const isDark = currentTheme === 'dark';
+            const pagebody = document.getElementsByTagName('body')[0]
+            if (isDark) {
+                pagebody.classList.add('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Dark"
+            } else {
+                pagebody.classList.remove('dark-theme');
+                // mobile
+                document.getElementById("mobile-toggle-theme").innerText = "· Light"
+            }
+        })();
+    </script>
+
+    <div class="wrapper">
+        <header>
+    <nav class="navbar">
+        <div class="container">
+            <div class="navbar-header header-logo"><a href="/">Bentham&#39;s Blog</a></div>
+            <div class="menu navbar-right">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+                <input id="switch_default" type="checkbox" class="switch_default">
+                <label for="switch_default" class="toggleBtn"></label>
+            </div>
+        </div>
+    </nav>
+
+    
+    <nav class="navbar-mobile" id="nav-mobile">
+        <div class="container">
+            <div class="navbar-header">
+                <div>
+                    <a href="/">Bentham&#39;s Blog</a><a id="mobile-toggle-theme">·&nbsp;Light</a>
+                </div>
+                <div class="menu-toggle" onclick="mobileBtn()">&#9776; Menu</div>
+            </div>
+            <div class="menu" id="mobile-menu">
+                
+                    <a class="menu-item" href="/archives">Posts</a>
+                
+                    <a class="menu-item" href="/category">Categories</a>
+                
+                    <a class="menu-item" href="/tag">Tags</a>
+                
+                    <a class="menu-item" href="/about">About</a>
+                
+            </div>
+        </div>
+    </nav>
+
+</header>
+<script>
+    var mobileBtn = function f() {
+        var toggleMenu = document.getElementsByClassName("menu-toggle")[0];
+        var mobileMenu = document.getElementById("mobile-menu");
+        if(toggleMenu.classList.contains("active")){
+           toggleMenu.classList.remove("active")
+            mobileMenu.classList.remove("active")
+        }else{
+            toggleMenu.classList.add("active")
+            mobileMenu.classList.add("active")
+        }
+    }
+</script>
+            <div class="main">
+                <div class="container">
+    
+    
+        <div class="post-toc">
+    <div class="tocbot-list">
+    </div>
+    <div class="tocbot-list-menu">
+        <a class="tocbot-toc-expand" onclick="expand_toc()">Expand all</a>
+        <a onclick="go_top()">Back to top</a>
+        <a onclick="go_bottom()">Go to bottom</a>
+    </div>
+</div>
+
+<script>
+    var tocbot_timer;
+    var DEPTH_MAX = 6; // 为 6 时展开所有
+    var tocbot_default_config = {
+        tocSelector: '.tocbot-list',
+        contentSelector: '.post-content',
+        headingSelector: 'h1, h2, h3, h4, h5',
+        orderedList: false,
+        scrollSmooth: true,
+        onClick: extend_click,
+    };
+
+    function extend_click() {
+        clearTimeout(tocbot_timer);
+        tocbot_timer = setTimeout(function() {
+            tocbot.refresh(obj_merge(tocbot_default_config, {
+                hasInnerContainers: true
+            }));
+        }, 420); // 这个值是由 tocbot 源码里定义的 scrollSmoothDuration 得来的
+    }
+
+    document.ready(function() {
+        tocbot.init(obj_merge(tocbot_default_config, {
+            collapseDepth: 1
+        }));
+    });
+
+    function expand_toc() {
+        var b = document.querySelector('.tocbot-toc-expand');
+        var expanded = b.getAttribute('data-expanded');
+        expanded ? b.removeAttribute('data-expanded') : b.setAttribute('data-expanded', true);
+        tocbot.refresh(obj_merge(tocbot_default_config, {
+            collapseDepth: expanded ? 1 : DEPTH_MAX
+        }));
+        b.innerText = expanded ? 'Expand all' : 'Collapse all';
+    }
+
+    function go_top() {
+        window.scrollTo(0, 0);
+    }
+
+    function go_bottom() {
+        window.scrollTo(0, document.body.scrollHeight);
+    }
+
+    function obj_merge(target, source) {
+        for (var item in source) {
+            if (source.hasOwnProperty(item)) {
+                target[item] = source[item];
+            }
+        }
+        return target;
+    }
+</script>
+    
+
+    
+    <article class="post-wrap">
+        <header class="post-header">
+            <h1 class="post-title">系统信息分析</h1>
+            
+                <div class="post-meta">
+                    
+                        Author: <a itemprop="author" rel="author" href="/">dw-ly</a>
+                    
+
+                    
+                        <span class="post-time">
+                        Date: <a href="#">八月 28, 2022&nbsp;&nbsp;21:20:43</a>
+                        </span>
+                    
+                    
+                        <span class="post-category">
+                    Category:
+                            
+                                <a href="/category/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a>
+                            
+                        </span>
+                    
+                </div>
+            
+        </header>
+
+        <div class="post-content">
+            <h4 id="案例分析"><a href="#案例分析" class="headerlink" title="案例分析"></a>案例分析</h4><p>登录到服务器，查看当前系统负载 。当前系统负载高有cpu使用率高、io使用率高、以及两者都高三种情况。<br>cpu 使用率高，可能确实是使用率高， 也的可能实际处理不高而是进程太多切换上下文频繁 ， 也可能是进程内线程的上下文切换频繁。<br>io 使用率高 ， 说明 io 请求比较大， 可能是 文件io 、 网络io 。   </p>
+<p>查看系统负载：uptime（ watch -d uptime）看三个阶段平均负载</p>
+<h5 id="一-平均负载"><a href="#一-平均负载" class="headerlink" title="一.平均负载"></a>一.平均负载</h5><p>单位时间内系统处于<strong>可运行状态</strong>和<strong>不可中断状态</strong>的平均进程数即平均活跃进程数，和CPU使用率没有直接关系。其中<strong>可运行状态</strong>指的是正在使用CPU或者正在等待CPU的进程，也就是ps命令中处于R状态（Running或Runnable）的进程。<strong>不可中断状态</strong>是处于内核态关键流程中的进程，如IO等，也就是D状态（Uninterruptible Sleep，也称为 Disk Sleep）的进程。不可中断状态是系统对进程和硬件设备的一种保护机制。</p>
+<p><strong>平均负载</strong>不仅包含了正在使用CPU的进程，还包括等待CPU和等待IO的进程。而<strong>CPU使用率</strong>是单位时间内CPU繁忙情况的统计，跟平均负载并不完全对应。</p>
+<p>如：</p>
+<blockquote>
+<ul>
+<li>CPU密集型进程，使用大量CPU，导致平均负载升高，此时二者一致。</li>
+<li>IO密集型进程，等待IO会导致平均负载升高，但是此时CPU使用率不一定高。</li>
+<li>大量等待CPU的进程调度会导致平均负载升高，此时CPU使用率也会比较高。</li>
+</ul>
+</blockquote>
+<h5 id="1-uptime"><a href="#1-uptime" class="headerlink" title="1.uptime"></a>1.uptime</h5><p>uptime：<a target="_blank" rel="noopener" href="https://blog.csdn.net/u014389734/article/details/79392440">uptime 命令介绍</a></p>
+<h5 id="2-mpstat"><a href="#2-mpstat" class="headerlink" title="2.mpstat"></a>2.mpstat</h5><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">mpstat -P ALL <span class="token number">3</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>通过<code>mpstat -P ALL 3</code>查看每个cpu当前的状况，所有cpu的平均指标，可以重点看用户态、内核态、以及io等待(iowait)三个参数 </p>
+<p>简单理解字段含义：</p>
+<ul>
+<li>user:用户态</li>
+<li>sys：系统CPU使用率</li>
+<li>iowait：io等待</li>
+<li>irq：硬中断</li>
+<li>soft：软中断</li>
+<li>idle：闲置时间（除去等待IO操作）</li>
+</ul>
+<p>参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/sinat_32321377/article/details/53281897">mpstat使用详解</a></p>
+<h5 id="二-上下文切换"><a href="#二-上下文切换" class="headerlink" title="二.上下文切换"></a>二.上下文切换</h5><p>按照场景可以区分为进程上下文切换、线程上下文切换和中断上下文切换。过多的上下文切换会把CPU时间消耗在寄存器、内核栈及虚拟内存等数据的保存和恢复上。按照产生原因可以分为<strong>自愿上下文切换</strong>和<strong>非自愿上下文切换</strong>。<br><strong>自愿上下文切换</strong>是进程无法获取所需资源导致的上下文切换。如I\O、内存等系统资源不足时产生的。<strong>非自愿上下文切换</strong>是进程时间片已到等原因导致被系统强制调度。比如大量进程在争抢cpu使用时。</p>
+<h5 id="3-pidstat"><a href="#3-pidstat" class="headerlink" title="3.pidstat"></a>3.pidstat</h5><pre class="line-numbers language-shell" data-language="shell"><code class="language-shell">pidstat -u <span class="token comment">## pidstat -w(进程切换指标)/-u（cpu使用指标）/-wt(线程上下文切换指标)</span><span aria-hidden="true" class="line-numbers-rows"><span></span></span></code></pre>
+
+<p>查看详细的上下文切换情况 ： pidstat （pidstat -w(进程切换指标)/-u（cpu使用指标）/-wt(线程上下文切换指标)） 注意看是自愿上下文切换、还是被动上下文切换 </p>
+<blockquote>
+<p>pidstat 中， %wait 表示进程等待 CPU 的时间百分比。此时进程是运行状态。<br>top 中 ，iowait% 则表示等待 I/O 的 CPU 时间百分比。此时进程处于不可中断睡眠态。<br>等待 CPU 的进程已经在 CPU 的就绪队列中，处于运行状态；而等待 I/O 的进程则处于不可中断状态。</p>
+</blockquote>
+<h5 id="4-vmstat"><a href="#4-vmstat" class="headerlink" title="4.vmstat"></a>4.vmstat</h5><p>系统整体的平均上下文切换情况 ：<code>vmstat 3</code><br>可以重点关注如下指标  </p>
+<blockquote>
+<ul>
+<li>cs（context switch）是每秒上下文切换的次数。</li>
+<li>in（interrupt）则是每秒中断的次数。</li>
+<li>r（Running or Runnable）是就绪队列的长度，也就是正在运行和等待 CPU 的进程数。（远超cpu个数时会产生大量cpu竞争）</li>
+<li>b（Blocked）则是处于不可中断睡眠状态的进程数。 </li>
+</ul>
+</blockquote>
+<p><strong>问题：vmstat 貌似只打印一次的情况下in(每秒中断数，包括时钟中断) 、cs(每秒上下文切换数)不会显示正确值。</strong></p>
+<p><strong>解答：vmstat第一行是系统启动以来的平均值，见man手册</strong></p>
+<blockquote>
+<p>The  first  report produced gives averages since the last reboot.  Additional reports give information on a sampling period of length delay.  The process and memory reports are instantaneous in either case.</p>
+</blockquote>
+<p><strong>另外vmstat可以看进程内存信息(读写、缓存、使用情况等)</strong></p>
+<p><a target="_blank" rel="noopener" href="https://baijiahao.baidu.com/s?id=1706815541297876574&wfr=spider&for=pc">Linux之vmstat命令</a></p>
+<p>暂时只整理了一部分。。。</p>
+
+        </div>
+
+        
+            <section class="post-copyright">
+                
+                    <p class="copyright-item">
+                        <span>Author:</span>
+                        <span>dw-ly</span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>Permalink:</span>
+                        <span><a href="https://dw-ly.github.io/2022/08/28/%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF/">https://dw-ly.github.io/2022/08/28/%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF/</a></span>
+                    </p>
+                
+                
+                    <p class="copyright-item">
+                        <span>License:</span>
+                        <span>Copyright (c) 2019 <a target="_blank" rel="noopener" href="http://creativecommons.org/licenses/by-nc/4.0/">CC-BY-NC-4.0</a> LICENSE</span>
+                    </p>
+                
+                
+                     <p class="copyright-item">
+                         <span>Slogan:</span>
+                         <span>Do you believe in <strong>DESTINY</strong>?</span>
+                     </p>
+                
+
+            </section>
+        
+        <section class="post-tags">
+            <div>
+                <span>Tag(s):</span>
+                <span class="tag">
+                    
+                    
+                        <a href="/tag/linux/"># linux</a>
+                    
+                        
+                </span>
+            </div>
+            <div>
+                <a href="javascript:window.history.back();">back</a>
+                <span>· </span>
+                <a href="/">home</a>
+            </div>
+        </section>
+        <section class="post-nav">
+            
+                <a class="prev" rel="prev" href="/2022/08/28/%E4%BB%8Esocket%E5%88%B0reactor%E6%A8%A1%E5%9E%8B/">网络IO</a>
+            
+            
+        </section>
+
+
+    </article>
+</div>
+
+            </div>
+            <footer id="footer" class="footer">
+    <div class="copyright">
+        <span>© dw-ly | Powered by <a href="https://hexo.io" target="_blank">Hexo</a> & <a href="https://github.com/Siricee/hexo-theme-Chic" target="_blank">Chic</a></span>
+    </div>
+</footer>
+
+    </div>
+</body>
+
+</html>
