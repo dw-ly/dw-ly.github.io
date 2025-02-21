@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>网络编程基础 | 我的技术博客</title><meta name="author" content="第五离央,dwlyshb@163.com"><meta name="copyright" content="第五离央"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="网络编程基础TCP协议TCP通信概览123456789101112131415+-------------+     数据流     +-------------+|             |--------------&gt;|             ||   客户端    |               |   服务器    ||             |&lt;------------">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络编程基础">
+<meta property="og:url" content="https://dw-ly.github.io/2025/02/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/index.html">
+<meta property="og:site_name" content="我的技术博客">
+<meta property="og:description" content="网络编程基础TCP协议TCP通信概览123456789101112131415+-------------+     数据流     +-------------+|             |--------------&gt;|             ||   客户端    |               |   服务器    ||             |&lt;------------">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://dw-ly.github.io/img/avatar.png">
+<meta property="article:published_time" content="2025-02-20T16:00:00.000Z">
+<meta property="article:modified_time" content="2025-02-21T15:42:36.926Z">
+<meta property="article:author" content="第五离央">
+<meta property="article:tag" content="C++">
+<meta property="article:tag" content="TCP&#x2F;IP">
+<meta property="article:tag" content="Socket">
+<meta property="article:tag" content="网络协议">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://dw-ly.github.io/img/avatar.png"><script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "headline": "网络编程基础",
+  "url": "https://dw-ly.github.io/2025/02/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/",
+  "image": "https://dw-ly.github.io/img/avatar.png",
+  "datePublished": "2025-02-20T16:00:00.000Z",
+  "dateModified": "2025-02-21T15:42:36.926Z",
+  "author": [
+    {
+      "@type": "Person",
+      "name": "第五离央",
+      "url": "https://dw-ly.github.io/"
+    }
+  ]
+}</script><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="https://dw-ly.github.io/2025/02/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyloadPlugin: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '网络编程基础',
+  isHighlightShrink: false,
+  isToc: true,
+  pageType: 'post'
+}</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/navigation/"><i class="fa-fw fas fa-compass"></i><span> 导航</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">我的技术博客</span></a><a class="nav-page-title" href="/"><span class="site-name">网络编程基础</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 归档</span></a></div><div class="menus_item"><a class="site-page" href="/navigation/"><i class="fa-fw fas fa-compass"></i><span> 导航</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-user"></i><span> 关于</span></a></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">网络编程基础</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-20T16:00:00.000Z" title="发表于 2025-02-21 00:00:00">2025-02-21</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-21T15:42:36.926Z" title="更新于 2025-02-21 23:42:36">2025-02-21</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B/">编程</a><i class="fas fa-angle-right post-meta-separator"></i><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/%E7%BC%96%E7%A8%8B/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="网络编程基础"><a href="#网络编程基础" class="headerlink" title="网络编程基础"></a>网络编程基础</h1><h2 id="TCP协议"><a href="#TCP协议" class="headerlink" title="TCP协议"></a>TCP协议</h2><h3 id="TCP通信概览"><a href="#TCP通信概览" class="headerlink" title="TCP通信概览"></a>TCP通信概览</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">+-------------+     数据流     +-------------+</span><br><span class="line">|             |--------------&gt;|             |</span><br><span class="line">|   客户端    |               |   服务器    |</span><br><span class="line">|             |&lt;--------------|             |</span><br><span class="line">+-------------+     数据流     +-------------+</span><br><span class="line"></span><br><span class="line">应用层  &lt;----------------&gt; 应用层</span><br><span class="line">   |                         |</span><br><span class="line">传输层  &lt;----------------&gt; 传输层</span><br><span class="line">   |                         |</span><br><span class="line">网络层  &lt;----------------&gt; 网络层</span><br><span class="line">   |                         |</span><br><span class="line">链路层  &lt;----------------&gt; 链路层</span><br><span class="line">   |                         |</span><br><span class="line">物理层  &lt;----------------&gt; 物理层</span><br></pre></td></tr></table></figure>
+
+<h3 id="三次握手"><a href="#三次握手" class="headerlink" title="三次握手"></a>三次握手</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">客户端                    服务器</span><br><span class="line">   |                         |</span><br><span class="line">   |------- SYN(seq=x)-----&gt;| 第一次握手</span><br><span class="line">   |                         |</span><br><span class="line">   |&lt;--SYN(seq=y),ACK(x+1)--| 第二次握手</span><br><span class="line">   |                         |</span><br><span class="line">   |------- ACK(y+1)-------&gt;| 第三次握手</span><br><span class="line">   |                         |</span><br></pre></td></tr></table></figure>
+
+<p>三次握手的过程:</p>
+<ol>
+<li>客户端发送 SYN 包(seq&#x3D;x)到服务器,请求建立连接</li>
+<li>服务器收到 SYN 包,回复 SYN+ACK 包(seq&#x3D;y,ack&#x3D;x+1)</li>
+<li>客户端收到 SYN+ACK 包,回复 ACK 包(ack&#x3D;y+1)</li>
+</ol>
+<h3 id="四次挥手"><a href="#四次挥手" class="headerlink" title="四次挥手"></a>四次挥手</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">客户端                    服务器</span><br><span class="line">   |                         |</span><br><span class="line">   |-------- FIN(x)--------&gt;| 第一次挥手</span><br><span class="line">   |                         |</span><br><span class="line">   |&lt;------ ACK(x+1)--------| 第二次挥手</span><br><span class="line">   |                         |</span><br><span class="line">   |&lt;------ FIN(y)---------| 第三次挥手</span><br><span class="line">   |                         |</span><br><span class="line">   |------- ACK(y+1)-------&gt;| 第四次挥手</span><br><span class="line">   |                         |</span><br></pre></td></tr></table></figure>
+
+<p>四次挥手的过程:</p>
+<ol>
+<li>客户端发送 FIN 包,请求关闭连接</li>
+<li>服务器收到 FIN 包,回复 ACK 包</li>
+<li>服务器发送 FIN 包,请求关闭连接</li>
+<li>客户端收到 FIN 包,回复 ACK 包</li>
+</ol>
+<h3 id="重要问题解答"><a href="#重要问题解答" class="headerlink" title="重要问题解答"></a>重要问题解答</h3><h4 id="为什么连接是三次握手-关闭是四次挥手"><a href="#为什么连接是三次握手-关闭是四次挥手" class="headerlink" title="为什么连接是三次握手,关闭是四次挥手?"></a>为什么连接是三次握手,关闭是四次挥手?</h4><p>因为建立连接时,服务器收到 SYN 后可以把 ACK 和 SYN 放在一个包中发送。但关闭连接时,服务器收到 FIN 后,可能还有数据需要发送,所以先回复 ACK,等数据发送完后再发送 FIN。</p>
+<h4 id="为什么需要-TIME-WAIT-状态"><a href="#为什么需要-TIME-WAIT-状态" class="headerlink" title="为什么需要 TIME_WAIT 状态?"></a>为什么需要 TIME_WAIT 状态?</h4><ol>
+<li>确保最后一个 ACK 能到达服务器。如果这个 ACK 丢失,服务器会重发 FIN 包</li>
+<li>等待老的数据包在网络中自然消失,避免与新连接混淆</li>
+</ol>
+<p>TIME_WAIT 持续时间是 2MSL(Maximum Segment Lifetime),即两倍的最大报文段生存时间。</p>
+<h2 id="Socket-编程"><a href="#Socket-编程" class="headerlink" title="Socket 编程"></a>Socket 编程</h2><h3 id="Socket通信流程"><a href="#Socket通信流程" class="headerlink" title="Socket通信流程"></a>Socket通信流程</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">服务器端                     客户端</span><br><span class="line">socket()                    socket()</span><br><span class="line">   |                          |</span><br><span class="line">bind()                        |</span><br><span class="line">   |                          |</span><br><span class="line">listen()                      |</span><br><span class="line">   |                          |</span><br><span class="line">accept() &lt;---------------&gt; connect()</span><br><span class="line">   |                          |</span><br><span class="line">read()/write() &lt;-----&gt; write()/read()</span><br><span class="line">   |                          |</span><br><span class="line">close()                    close()</span><br><span class="line"></span><br><span class="line">+-------------+     +-------------+</span><br><span class="line">|   服务器    |     |   客户端    |</span><br><span class="line">+-------------+     +-------------+</span><br><span class="line">| socket()    |     | socket()    |</span><br><span class="line">| bind()      |     |             |</span><br><span class="line">| listen()    |     |             |</span><br><span class="line">| accept()    |&lt;---&gt;| connect()   |</span><br><span class="line">| recv/send   |&lt;---&gt;| send/recv   |</span><br><span class="line">| close()     |     | close()     |</span><br><span class="line">+-------------+     +-------------+</span><br></pre></td></tr></table></figure>
+
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>Socket 是应用层与 TCP&#x2F;IP 协议族通信的中间软件抽象层,表现为一个文件描述符。</p>
+<h3 id="服务器端步骤"><a href="#服务器端步骤" class="headerlink" title="服务器端步骤"></a>服务器端步骤</h3><ol>
+<li>创建 Socket</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>绑定地址和端口</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> server_addr;</span><br><span class="line">server_addr.sin_family = AF_INET;</span><br><span class="line">server_addr.sin_port = <span class="built_in">htons</span>(PORT);</span><br><span class="line">server_addr.sin_addr.s_addr = <span class="built_in">htonl</span>(INADDR_ANY);</span><br><span class="line"><span class="built_in">bind</span>(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;server_addr, <span class="built_in">sizeof</span>(server_addr));</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>监听连接</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">listen</span>(sockfd, BACKLOG);</span><br></pre></td></tr></table></figure>
+
+<ol start="4">
+<li>接受连接</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> client_addr;</span><br><span class="line"><span class="type">socklen_t</span> client_len = <span class="built_in">sizeof</span>(client_addr);</span><br><span class="line"><span class="type">int</span> connfd = <span class="built_in">accept</span>(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;client_addr, &amp;client_len);</span><br></pre></td></tr></table></figure>
+
+<ol start="5">
+<li>数据收发</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> buffer[<span class="number">1024</span>];</span><br><span class="line"><span class="built_in">recv</span>(connfd, buffer, <span class="built_in">sizeof</span>(buffer), <span class="number">0</span>);</span><br><span class="line"><span class="built_in">send</span>(connfd, buffer, <span class="built_in">strlen</span>(buffer), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端步骤"><a href="#客户端步骤" class="headerlink" title="客户端步骤"></a>客户端步骤</h3><ol>
+<li>创建 Socket</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> sockfd = <span class="built_in">socket</span>(AF_INET, SOCK_STREAM, <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>连接服务器</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">sockaddr_in</span> server_addr;</span><br><span class="line">server_addr.sin_family = AF_INET;</span><br><span class="line">server_addr.sin_port = <span class="built_in">htons</span>(PORT);</span><br><span class="line"><span class="built_in">inet_pton</span>(AF_INET, SERVER_IP, &amp;server_addr.sin_addr);</span><br><span class="line"><span class="built_in">connect</span>(sockfd, (<span class="keyword">struct</span> sockaddr*)&amp;server_addr, <span class="built_in">sizeof</span>(server_addr));</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>数据收发</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> buffer[<span class="number">1024</span>];</span><br><span class="line"><span class="built_in">send</span>(sockfd, buffer, <span class="built_in">strlen</span>(buffer), <span class="number">0</span>);</span><br><span class="line"><span class="built_in">recv</span>(sockfd, buffer, <span class="built_in">sizeof</span>(buffer), <span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="Socket-API-详解"><a href="#Socket-API-详解" class="headerlink" title="Socket API 详解"></a>Socket API 详解</h3><h4 id="socket"><a href="#socket" class="headerlink" title="socket()"></a>socket()</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">socket</span><span class="params">(<span class="type">int</span> domain, <span class="type">int</span> type, <span class="type">int</span> protocol)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>参数说明:</p>
+<ul>
+<li>domain: 协议族<ul>
+<li>AF_INET: IPv4</li>
+<li>AF_INET6: IPv6</li>
+</ul>
+</li>
+<li>type: 套接字类型<ul>
+<li>SOCK_STREAM: TCP</li>
+<li>SOCK_DGRAM: UDP</li>
+</ul>
+</li>
+<li>protocol: 协议<ul>
+<li>0: 自动选择</li>
+<li>IPPROTO_TCP: TCP</li>
+<li>IPPROTO_UDP: UDP</li>
+</ul>
+</li>
+</ul>
+<h4 id="bind"><a href="#bind" class="headerlink" title="bind()"></a>bind()</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">bind</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">const</span> <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>将 socket 与特定的 IP 地址和端口绑定。</p>
+<h4 id="listen"><a href="#listen" class="headerlink" title="listen()"></a>listen()</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">listen</span><span class="params">(<span class="type">int</span> sockfd, <span class="type">int</span> backlog)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>将 socket 设置为监听状态,backlog 指定连接队列的最大长度。</p>
+<h4 id="accept"><a href="#accept" class="headerlink" title="accept()"></a>accept()</h4><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">int</span> <span class="title">accept</span><span class="params">(<span class="type">int</span> sockfd, <span class="keyword">struct</span> sockaddr *addr, <span class="type">socklen_t</span> *addrlen)</span></span>;</span><br></pre></td></tr></table></figure>
+
+<p>从已完成连接队列中获取一个连接。</p>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ol>
+<li>字节序转换</li>
+</ol>
+<ul>
+<li>htons(): 主机序转网络序(short)</li>
+<li>htonl(): 主机序转网络序(long)</li>
+<li>ntohs(): 网络序转主机序(short)</li>
+<li>ntohl(): 网络序转主机序(long)</li>
+</ul>
+<ol start="2">
+<li>地址转换</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 字符串IP转网络字节序</span></span><br><span class="line"><span class="built_in">inet_pton</span>(AF_INET, <span class="string">&quot;192.168.1.1&quot;</span>, &amp;addr.sin_addr);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 网络字节序转字符串IP</span></span><br><span class="line"><span class="type">char</span> ip[INET_ADDRSTRLEN];</span><br><span class="line"><span class="built_in">inet_ntop</span>(AF_INET, &amp;addr.sin_addr, ip, <span class="built_in">sizeof</span>(ip));</span><br></pre></td></tr></table></figure>
+
+<ol start="3">
+<li>错误处理</li>
+</ol>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (sockfd &lt; <span class="number">0</span>) &#123;</span><br><span class="line">    <span class="built_in">perror</span>(<span class="string">&quot;socket error&quot;</span>);</span><br><span class="line">    <span class="built_in">exit</span>(<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="最佳实践"><a href="#最佳实践" class="headerlink" title="最佳实践"></a>最佳实践</h2><h3 id="服务器设计建议"><a href="#服务器设计建议" class="headerlink" title="服务器设计建议"></a>服务器设计建议</h3><ol>
+<li>使用非阻塞 IO 或多线程处理多个客户端</li>
+<li>合理设置 backlog 大小</li>
+<li>处理 SIGPIPE 信号</li>
+<li>及时关闭不用的连接</li>
+<li>使用 SO_REUSEADDR 选项</li>
+</ol>
+<h3 id="客户端设计建议"><a href="#客户端设计建议" class="headerlink" title="客户端设计建议"></a>客户端设计建议</h3><ol>
+<li>实现断线重连机制</li>
+<li>设置合适的超时时间</li>
+<li>处理网络异常情况</li>
+<li>数据校验和重传机制</li>
+</ol>
+<h3 id="调试技巧"><a href="#调试技巧" class="headerlink" title="调试技巧"></a>调试技巧</h3><ol>
+<li>使用 tcpdump 抓包分析</li>
+<li>netstat 查看连接状态</li>
+<li>lsof 查看文件描述符</li>
+<li>strace 跟踪系统调用</li>
+</ol>
+<h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/whuslei/article/details/6667471">TCP三次握手和四次挥手详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/Sniper-quay/archive/2011/06/22/2086636.html">Socket编程步骤详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhangyabin---acm/p/3198363.html">socket函数详解</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/still-smile/p/13611270.html">listen函数详解</a></li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://dw-ly.github.io">第五离央</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://dw-ly.github.io/2025/02/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/">https://dw-ly.github.io/2025/02/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://dw-ly.github.io" target="_blank">我的技术博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/C/">C++</a><a class="post-meta__tags" href="/tags/TCP-IP/">TCP/IP</a><a class="post-meta__tags" href="/tags/Socket/">Socket</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E5%8D%8F%E8%AE%AE/">网络协议</a></div><div class="post-share"><div class="social-share" data-image="/img/avatar.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/02/21/Python%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/" title="Python基础语法总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">Python基础语法总结</div></div><div class="info-2"><div class="info-item-1">Python基础语法总结基本概念变量和数据类型Python 是动态类型语言，变量无需声明类型： 123456789101112131415161718192021222324# 数字类型number = 42          # 整数float_number = 3.14  # 浮点数complex_num = 1 + 2j # 复数# 字符串text = &quot;Hello, Python!&quot;multi_line = &quot;&quot;&quot;多行字符串&quot;&quot;&quot;# 布尔值is_true = Trueis_false = False# 空值empty = None# 列表my_list = [1, 2, 3, 4, 5]# 字典my_dict = &#123;&quot;name&quot;: &quot;Python&quot;, &quot;type&quot;:...</div></div></div></a><a class="pagination-related" href="/2025/02/21/Shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" title="Shell脚本编程基础"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">Shell脚本编程基础</div></div><div class="info-2"><div class="info-item-1">Shell 脚本编程基础本文介绍 Shell 脚本的基础知识和常用命令。 1. 基础语法1.1 变量定义和使用1234567# 变量定义name=&quot;Shell&quot;number=42# 变量使用echo &quot;Hello, $name!&quot;echo &quot;Number is $&#123;number&#125;&quot;  1.2 条件判断123456789101112131415161718192021# if 语句if [ $number -gt 0 ]; then    echo &quot;正数&quot;elif [ $number -eq 0 ]; then    echo &quot;零&quot;else    echo &quot;负数&quot;fi# case 语句case $1 in    &quot;start&quot;)        echo &quot;启动服务&quot;        ;;    &quot;stop&quot;)        echo &quot;停止服务&quot;       ...</div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/02/21/C++%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="C++内存管理"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-21</div><div class="info-item-2">C++内存管理</div></div><div class="info-2"><div class="info-item-1">C++内存管理内存分区内存布局概览1234567891011121314151617高地址    +------------------+         |    内核空间      |         +------------------+         | 命令行参数和环境变量|         +------------------+         |    栈区(Stack)   |         |        ↓        |         |                 |         |        ↑        |         |     堆区(Heap)   |         +------------------+         |  未初始化数据(.bss)|         +------------------+         |  已初始化数据(.data)|         +------------------+         |   代码段(.text)   |低地址   ...</div></div></div></a><a class="pagination-related" href="/2024/02/21/CPP-Class-Guide/" title="C++ 类完全指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-21</div><div class="info-item-2">C++ 类完全指南</div></div><div class="info-2"><div class="info-item-1">C++ 类完全指南类的基本概念定义与声明123456789101112class MyClass &#123;public:    // 公有成员    MyClass();  // 构造函数    ~MyClass(); // 析构函数    protected:    // 保护成员    private:    // 私有成员&#125;;  访问控制 public: 外部可访问 protected: 仅子类可访问 private: 仅本类可访问 默认为 private（区别于 struct 默认为 public）  类成员成员函数1234567891011121314151617181920class Example &#123;public:    // 普通成员函数    void normalFunc() &#123;        // 可以访问类的所有成员    &#125;        // const 成员函数    int getValue() const &#123;        return value;  // 不能修改类成员   ...</div></div></div></a><a class="pagination-related" href="/2024/02/21/C-%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/" title="C++基础语法总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-21</div><div class="info-item-2">C++基础语法总结</div></div><div class="info-2"><div class="info-item-1">C++基础语法总结基本语法数据类型1234567891011// 基本数据类型int number = 42;double pi = 3.14159;char letter = &#x27;A&#x27;;bool flag = true;// 复合类型int array[5] = &#123;1, 2, 3, 4, 5&#125;;struct Point &#123;    int x, y;&#125;;  控制流123456789101112131415161718192021// if 语句if (condition) &#123;    // code&#125; else if (other_condition) &#123;    // code&#125; else &#123;    // code&#125;// 循环for (int i = 0; i &lt; n; i++) &#123;    // code&#125;while (condition) &#123;    // code&#125;do &#123;    // code&#125;...</div></div></div></a><a class="pagination-related" href="/2025/02/21/C++%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/" title="C++原子操作"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-02-21</div><div class="info-item-2">C++原子操作</div></div><div class="info-2"><div class="info-item-1">C++原子操作基本概念什么是原子操作原子操作是指不可被中断的一个或一系列操作。在多线程环境中，原子操作可以保证数据的一致性，避免竞态条件。 普通操作 vs 原子操作： 123456789101112131415161718普通操作（可能被中断）：Thread1  Memory   Thread2   |       |        |   |--读值-&gt;|        |   |       |&lt;-读值--|   |--改值-&gt;|        |   |       |&lt;-改值--|   |       |        |结果不确定！原子操作（不可中断）：Thread1  Memory   Thread2   |       |        |   |=原子操作=&gt;|     |   |       |        |   |       |&lt;=原子操作=|   |       |        |结果可预测！  原子操作的实现原理CPU指令级别实现： 1234567891011+---------------+| ...</div></div></div></a><a class="pagination-related" href="/2024/02/21/GDB%E8%B0%83%E8%AF%95%E5%B7%A5%E5%85%B7%E4%BD%BF%E7%94%A8%E6%80%BB%E7%BB%93/" title="GDB调试工具使用总结"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-21</div><div class="info-item-2">GDB调试工具使用总结</div></div><div class="info-2"><div class="info-item-1">GDB调试工具使用总结断点操作设置断点1234567891011121314151617181920# 普通断点b file.cpp:21          # 在 file.cpp 第 21 行设置断点# 条件断点b debug.cpp:14 if c=4  # 当 c=4 时触发断点# 数据断点b *0x400522           # 根据地址设置断点b &amp;变量名             # 根据变量设置断点# 函数断点b funcName            # 在函数入口设置断点# 偏移量断点b +偏移量             # 根据当前位置偏移设置断点# 监视点watch *地址           # 监视内存地址变化watch var            # 监视变量值变化watch (condition)    # 监视条件变化  管理断点12345678910111213141516171819# 查看断点i b                   # 显示所有断点信息# 删除断点d 4                   #...</div></div></div></a><a class="pagination-related" href="/2024/02/21/JsonCpp-%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="JsonCpp 使用指南"><div class="cover" style="background: var(--default-bg-color)"></div><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2024-02-21</div><div class="info-item-2">JsonCpp 使用指南</div></div><div class="info-2"><div class="info-item-1">JsonCpp 使用指南安装配置Linux 环境安装12345# Ubuntu/Debiansudo apt-get install libjsoncpp-dev# CentOS/RHELsudo yum install jsoncpp-devel  Windows 环境配置123456# 下载源码# 从 JsonCpp GitHub 下载发布版本# 配置项目- 添加包含目录- 链接库文件  项目集成CMake配置1234# 查找 JsonCppfind_package(JsonCpp REQUIRED)include_directories($&#123;JSONCPP_INCLUDE_DIRS&#125;)target_link_libraries(your_target jsoncpp)  头文件引入123#include &lt;json/json.h&gt;  // 标准引入方式// 或#include &lt;jsoncpp/json/json.h&gt;  // 某些系统的引入方式  基本使用JSON 写入123456789101112131415// 创建...</div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/avatar.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">第五离央</div><div class="author-info-description">个人技术博客和导航站点</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">14</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">44</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/dw-ly" target="_blank" title="fab fa-github"><i class="Github"></i></a><a class="social-icon" href="mailto:your.email@domain.com" target="_blank" title="fas fa-envelope"><i class="Email"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80"><span class="toc-number">1.</span> <span class="toc-text">网络编程基础</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#TCP%E5%8D%8F%E8%AE%AE"><span class="toc-number">1.1.</span> <span class="toc-text">TCP协议</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#TCP%E9%80%9A%E4%BF%A1%E6%A6%82%E8%A7%88"><span class="toc-number">1.1.1.</span> <span class="toc-text">TCP通信概览</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B"><span class="toc-number">1.1.2.</span> <span class="toc-text">三次握手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">1.1.3.</span> <span class="toc-text">四次挥手</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%87%8D%E8%A6%81%E9%97%AE%E9%A2%98%E8%A7%A3%E7%AD%94"><span class="toc-number">1.1.4.</span> <span class="toc-text">重要问题解答</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%BF%9E%E6%8E%A5%E6%98%AF%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B-%E5%85%B3%E9%97%AD%E6%98%AF%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B"><span class="toc-number">1.1.4.1.</span> <span class="toc-text">为什么连接是三次握手,关闭是四次挥手?</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-TIME-WAIT-%E7%8A%B6%E6%80%81"><span class="toc-number">1.1.4.2.</span> <span class="toc-text">为什么需要 TIME_WAIT 状态?</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Socket-%E7%BC%96%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">Socket 编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Socket%E9%80%9A%E4%BF%A1%E6%B5%81%E7%A8%8B"><span class="toc-number">1.2.1.</span> <span class="toc-text">Socket通信流程</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="toc-number">1.2.2.</span> <span class="toc-text">基本概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.2.3.</span> <span class="toc-text">服务器端步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%AD%A5%E9%AA%A4"><span class="toc-number">1.2.4.</span> <span class="toc-text">客户端步骤</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Socket-API-%E8%AF%A6%E8%A7%A3"><span class="toc-number">1.2.5.</span> <span class="toc-text">Socket API 详解</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#socket"><span class="toc-number">1.2.5.1.</span> <span class="toc-text">socket()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#bind"><span class="toc-number">1.2.5.2.</span> <span class="toc-text">bind()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#listen"><span class="toc-number">1.2.5.3.</span> <span class="toc-text">listen()</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#accept"><span class="toc-number">1.2.5.4.</span> <span class="toc-text">accept()</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="toc-number">1.2.6.</span> <span class="toc-text">注意事项</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5"><span class="toc-number">1.3.</span> <span class="toc-text">最佳实践</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%AE%BE%E8%AE%A1%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.3.1.</span> <span class="toc-text">服务器设计建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E8%AE%BE%E8%AE%A1%E5%BB%BA%E8%AE%AE"><span class="toc-number">1.3.2.</span> <span class="toc-text">客户端设计建议</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%B0%83%E8%AF%95%E6%8A%80%E5%B7%A7"><span class="toc-number">1.3.3.</span> <span class="toc-text">调试技巧</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="toc-number">1.4.</span> <span class="toc-text">参考资料</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/21/C++%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86/" title="C++内存管理">C++内存管理</a><time datetime="2025-02-20T16:00:00.000Z" title="发表于 2025-02-21 00:00:00">2025-02-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/21/C++%E5%8E%9F%E5%AD%90%E6%93%8D%E4%BD%9C/" title="C++原子操作">C++原子操作</a><time datetime="2025-02-20T16:00:00.000Z" title="发表于 2025-02-21 00:00:00">2025-02-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/21/Python%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95%E6%80%BB%E7%BB%93/" title="Python基础语法总结">Python基础语法总结</a><time datetime="2025-02-20T16:00:00.000Z" title="发表于 2025-02-21 00:00:00">2025-02-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/21/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" title="网络编程基础">网络编程基础</a><time datetime="2025-02-20T16:00:00.000Z" title="发表于 2025-02-21 00:00:00">2025-02-21</time></div></div><div class="aside-list-item no-cover"><div class="content"><a class="title" href="/2025/02/21/Shell%E8%84%9A%E6%9C%AC%E7%BC%96%E7%A8%8B%E5%9F%BA%E7%A1%80/" title="Shell脚本编程基础">Shell脚本编程基础</a><time datetime="2025-02-20T16:00:00.000Z" title="发表于 2025-02-21 00:00:00">2025-02-21</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By 第五离央</div><div class="framework-info"><span>框架 </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo 7.3.0</a><span class="footer-separator">|</span><span>主题 </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly 5.3.3</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
