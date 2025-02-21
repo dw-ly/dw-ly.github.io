@@ -15,13 +15,11 @@ tags:
   - 进阶
 ---
 
-## C++ STL 容器和算法总结
+# STL容器和算法总结
 
-STL（Standard Template Library）是 C++ 标准库的核心组件，本文总结了常用的 STL 容器和算法。
+## 顺序容器
 
-### 1. 顺序容器
-
-#### 1.1 vector
+### vector
 ```cpp
 // 动态数组
 vector<int> vec;
@@ -35,7 +33,7 @@ vector<int> vec1 = {1, 2, 3};
 vector<int> vec2(5, 0);  // 5个0
 ```
 
-#### 1.2 list
+### list
 ```cpp
 // 双向链表
 list<int> lst;

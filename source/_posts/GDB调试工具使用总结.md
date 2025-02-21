@@ -13,13 +13,11 @@ tags:
   - 实践
 ---
 
-## GDB 调试工具使用总结
+# GDB调试工具使用总结
 
-GDB（GNU Debugger）是 Linux 下强大的程序调试工具，本文总结了 GDB 的常用命令和调试技巧。
+## 断点操作
 
-### 1. 断点操作
-
-#### 1.1 设置断点
+### 设置断点
 ```bash
 # 普通断点
 b file.cpp:21          # 在 file.cpp 第 21 行设置断点
@@ -43,7 +41,7 @@ watch var            # 监视变量值变化
 watch (condition)    # 监视条件变化
 ```
 
-#### 1.2 管理断点
+### 管理断点
 ```bash
 # 查看断点
 i b                   # 显示所有断点信息
@@ -66,8 +64,9 @@ enable count N 断点编号 # 启用 N 次后自动禁用
 ignore 断点编号 次数    # 忽略前 N 次触发
 ```
 
-### 2. 程序运行控制
+## 程序运行控制
 
+### 基本控制
 ```bash
 # 启动程序
 r/run                 # 运行程序
@@ -75,16 +74,16 @@ attach pid           # 附加到已运行的进程
 
 # 继续运行
 c/continue           # 继续运行到下一个断点
-c N                 # 继续运行并跳过 N 个断点
+```
 
-# 单步调试
+### 单步调试
+```bash
 n/next              # 单步执行（不进入函数）
 s/step              # 单步执行（进入函数）
 finish              # 运行至当前函数返回
 ```
 
-### 3. 多线程调试
-
+### 多线程调试
 ```bash
 # 线程操作
 info threads        # 显示所有线程
@@ -93,8 +92,9 @@ thread apply all 命令 # 对所有线程执行命令
 set scheduler-locking off/on/step  # 设置线程调度模式
 ```
 
-### 4. 查看和修改数据
+## 查看和修改数据
 
+### 变量操作
 ```bash
 # 打印变量
 p 变量名             # 打印变量值
@@ -105,9 +105,9 @@ x/nfu 地址          # 查看内存内容
 set var 变量名=值    # 修改变量值
 ```
 
-### 5. GDB 配置
+## GDB 配置
 
-#### 5.1 Core 文件配置
+### Core 文件配置
 ```bash
 # 开启 core 文件生成
 ulimit -c unlimited
@@ -116,7 +116,7 @@ ulimit -c unlimited
 echo "/corefile/core-%e-%p-%t" > /proc/sys/kernel/core_pattern
 ```
 
-#### 5.2 .gdbinit 配置文件
+### .gdbinit 配置文件
 ```bash
 # 常用配置示例
 set print pretty on          # 格式化打印结构体
@@ -126,26 +126,42 @@ set print array on         # 打印数组元素
 set print elements 0       # 打印字符串完整内容
 ```
 
-### 6. 调试技巧
+## 调试技巧
 
+### 基本技巧
 1. 使用临时断点（`tb`）进行一次性调试
 2. 使用条件断点定位特定场景
 3. 使用监视点跟踪内存变化
 4. 使用 `finish` 快速跳出当前函数
 5. 合理使用断点启用/禁用管理调试流程
 
-### 7. 常见问题处理
+### 高级技巧
+```cpp
+// 添加调试信息
+class Base {
+public:
+    virtual void func() {
+        std::cout << "Base::func" << std::endl;
+    }
+};
 
-1. 找不到调试符号
-   - 确保编译时使用 `-g` 选项
-   - 检查符号表文件是否存在
+// 使用 sizeof 和偏移量
+std::cout << "Size of Base: " << sizeof(Base) << std::endl;
+std::cout << "Offset of data: " << offsetof(Base, data) << std::endl;
+```
 
-2. 无法生成 core 文件
-   - 检查系统限制：`ulimit -c`
-   - 确认文件系统权限
+## 常见问题处理
 
-3. 多线程调试卡死
-   - 使用 `set scheduler-locking on` 锁定线程
-   - 检查死锁情况
+### 符号调试
+- 确保编译时使用 `-g` 选项
+- 检查符号表文件是否存在
+
+### Core 文件问题
+- 检查系统限制：`ulimit -c`
+- 确认文件系统权限
+
+### 多线程问题
+- 使用 `set scheduler-locking on` 锁定线程
+- 检查死锁情况
 
 更多 GDB 调试技巧和进阶用法将在后续文章中详细介绍。

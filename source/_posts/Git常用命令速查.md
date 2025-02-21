@@ -10,12 +10,11 @@ tags:
   - 开发工具
 ---
 
-## Git 常用命令速查表
+# Git常用命令速查
 
-本文整理了 Git 最常用的命令和使用场景，按照日常工作流程分类整理。
+## 基础配置
 
-### 1. 基础配置
-#### 1.1 用户信息配置
+### 用户信息
 ```bash
 # 配置用户名和邮箱
 git config --global user.name "Your Name"
@@ -25,7 +24,7 @@ git config --global user.email "your.email@example.com"
 git config --list
 ```
 
-#### 1.2 SSH 配置
+### SSH配置
 ```bash
 # 生成 SSH 密钥
 ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
@@ -34,8 +33,9 @@ ssh-keygen -t rsa -b 4096 -C "your.email@example.com"
 cat ~/.ssh/id_rsa.pub
 ```
 
-### 2. 仓库操作
-#### 2.1 仓库初始化
+## 仓库操作
+
+### 仓库初始化
 ```bash
 # 初始化新仓库
 git init
@@ -45,7 +45,7 @@ git clone repository_url
 git clone repository_url custom_folder_name  # 指定本地文件夹名
 ```
 
-#### 2.2 远程仓库管理
+### 远程仓库管理
 ```bash
 # 查看远程仓库
 git remote -v
@@ -57,8 +57,9 @@ git remote add origin repository_url
 git remote set-url origin new_repository_url
 ```
 
-### 3. 文件操作
-#### 3.1 文件暂存
+## 文件操作
+
+### 文件暂存
 ```bash
 # 添加指定文件到暂存区
 git add file_name
@@ -70,7 +71,7 @@ git status
 git status -s  # 简短格式
 ```
 
-#### 3.2 文件提交
+### 文件提交
 ```bash
 # 提交更改
 git commit -m "提交说明"
@@ -80,7 +81,7 @@ git commit -am "提交说明"  # 合并 add 和 commit
 git commit --amend
 ```
 
-#### 3.3 文件撤销
+### 文件撤销
 ```bash
 # 撤销工作区修改
 git checkout -- file_name
@@ -92,8 +93,9 @@ git reset HEAD file_name
 git revert commit_id
 ```
 
-### 4. 分支管理
-#### 4.1 分支操作
+## 分支管理
+
+### 分支操作
 ```bash
 # 查看分支
 git branch  # 本地分支
@@ -108,7 +110,7 @@ git checkout -b branch_name  # 创建并切换
 git checkout branch_name
 ```
 
-#### 4.2 分支合并
+### 分支合并
 ```bash
 # 合并分支
 git merge branch_name
@@ -120,8 +122,9 @@ git add .  # 标记冲突解决
 git commit -m "解决冲突"
 ```
 
-### 5. 历史记录
-#### 5.1 查看历史
+## 历史记录
+
+### 查看历史
 ```bash
 # 查看提交历史
 git log
@@ -133,7 +136,7 @@ git diff
 git diff file_name
 ```
 
-#### 5.2 版本回退
+### 版本回退
 ```bash
 # 回退到指定版本
 git reset --hard commit_id
@@ -143,7 +146,9 @@ git reset --hard HEAD^  # 回退到上一版本
 git reflog
 ```
 
-### 6. 标签管理
+## 标签管理
+
+### 标签操作
 ```bash
 # 创建标签
 git tag tag_name
@@ -157,8 +162,9 @@ git show tag_name
 git tag -d tag_name
 ```
 
-### 7. 实用技巧
-#### 7.1 临时保存
+## 实用技巧
+
+### 临时保存
 ```bash
 # 保存工作现场
 git stash
@@ -169,7 +175,7 @@ git stash pop  # 恢复并删除
 git stash apply  # 仅恢复
 ```
 
-#### 7.2 忽略文件
+### 忽略文件
 ```bash
 # 创建 .gitignore 文件
 touch .gitignore
@@ -180,4 +186,4 @@ node_modules/
 .DS_Store
 ```
 
-更多 Git 使用技巧和进阶命令将在后续文章中详细介绍。欢迎持续关注！
+更多 Git 使用技巧和进阶命令将在后续文章中详细介绍。

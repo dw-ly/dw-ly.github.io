@@ -14,13 +14,11 @@ tags:
   - 后端
 ---
 
-## C++ 基础语法总结
+# C++基础语法总结
 
-本文总结了 C++ 的基本语法特点和使用要点。
+## 基本语法
 
-### 1. 基本语法
-
-#### 1.1 数据类型
+### 数据类型
 ```cpp
 // 基本数据类型
 int number = 42;
@@ -28,213 +26,173 @@ double pi = 3.14159;
 char letter = 'A';
 bool flag = true;
 
-// 字符串
-std::string text = "Hello, C++!";
-
-// pair和tuple
-std::pair<int, string> p1 = {1, "first"};
-std::tuple<int, string, double> t1 = {1, "first", 3.14};
+// 复合类型
+int array[5] = {1, 2, 3, 4, 5};
+struct Point {
+    int x, y;
+};
 ```
 
-#### 1.2 控制流
+### 控制流
 ```cpp
 // if 语句
 if (condition) {
-    // 代码块
+    // code
 } else if (other_condition) {
-    // 代码块
+    // code
 } else {
-    // 代码块
+    // code
 }
 
-// likely/unlikely优化分支预测
-if (likely(x > 0)) {  // 提示编译器这个分支更可能发生
-    // 常见情况
-} else {
-    // 罕见情况
-}
-
-// for 循环
+// 循环
 for (int i = 0; i < n; i++) {
-    // 循环体
+    // code
 }
 
-// while 循环
 while (condition) {
-    // 循环体
+    // code
 }
 
-// do-while(0) 常用于宏定义
 do {
-    // 代码块
-    if (error) break;
-    // 更多代码
-} while(0);
+    // code
+} while (condition);
 ```
 
-### 2. 内存管理
+## 函数
 
-#### 2.1 new 和 malloc
+### 函数定义
 ```cpp
-// new/delete
-int* p1 = new int;        // 单个对象
-int* p2 = new int[10];    // 数组
-delete p1;                // 释放单个对象
-delete[] p2;              // 释放数组
-
-// malloc/free
-int* p3 = (int*)malloc(sizeof(int));
-free(p3);
-
-// new的优势：
-// 1. 会调用构造函数
-// 2. 可以被重载
-// 3. 类型安全
-// 4. 可以被异常处理捕获
-```
-
-#### 2.2 内存函数
-```cpp
-// memset：内存设置
-char str[10];
-memset(str, 0, sizeof(str));  // 清零操作
-
-// sprintf和snprintf：格式化字符串
-char buffer[50];
-sprintf(buffer, "Value is %d", 123);      // 不安全
-snprintf(buffer, 50, "Value is %d", 123); // 安全，限制写入大小
-```
-
-### 3. 结构体和类
-
-#### 3.1 结构体
-```cpp
-// 结构体定义
-typedef struct Person {
-    int id;
-    string name;
-    
-    // C++结构体可以包含函数
-    void display() {
-        cout << "ID: " << id << ", Name: " << name << endl;
-    }
-} Per;
-
-// 结构体嵌套
-struct Outer {
-    struct Inner {
-        int x;
-    } inner;
-    int y;
-};
-```
-
-#### 3.2 类成员访问
-```cpp
-class Student {
-public:
-    string name;
-};
-
-// 对象访问
-Student s;
-s.name = "Tom";          // 使用点运算符
-
-// 指针访问
-Student* ps = new Student;
-ps->name = "Jerry";      // 使用箭头运算符
-(*ps).name = "Jerry";    // 等价形式
-```
-
-### 4. 关键字和修饰符
-
-#### 4.1 static关键字
-```cpp
-// 1. 静态局部变量
-void func() {
-    static int count = 0;  // 只初始化一次
-    count++;
+// 基本函数
+int add(int a, int b) {
+    return a + b;
 }
 
-// 2. 静态成员变量
-class Example {
-    static int count;      // 所有对象共享
-};
-
-// 3. 静态成员函数
-class Example {
-    static void func() {   // 不需要对象即可访问
-        // 只能访问静态成员
-    }
-};
+// 函数重载
+void print(int x) { /*...*/ }
+void print(double x) { /*...*/ }
+void print(const string& s) { /*...*/ }
 ```
 
-#### 4.2 const关键字
+### 参数传递
 ```cpp
-// 常量指针 vs 指针常量
-const char* p1;     // 指向常量的指针（指向的值不能改）
-char* const p2;     // 常量指针（指针不能改）
-const char* const p3; // 指向常量的常量指针（都不能改）
+// 值传递
+void func1(int x) { /*...*/ }
 
-// 常量成员函数
-class Example {
-    int getValue() const { // 承诺不修改对象的成员
-        return value;
-    }
+// 引用传递
+void func2(int& x) { /*...*/ }
+
+// const 引用
+void func3(const string& s) { /*...*/ }
+```
+
+## 内存管理
+
+### 动态内存
+```cpp
+// new 和 delete
+int* p = new int(42);
+delete p;
+
+// 数组
+int* arr = new int[10];
+delete[] arr;
+```
+
+### 智能指针
+```cpp
+// unique_ptr
+std::unique_ptr<int> up(new int(42));
+
+// shared_ptr
+std::shared_ptr<int> sp = std::make_shared<int>(42);
+```
+
+## 模板
+
+### 函数模板
+```cpp
+template<typename T>
+T max(T a, T b) {
+    return (a > b) ? a : b;
+}
+```
+
+### 类模板
+```cpp
+template<typename T>
+class Container {
+public:
+    void add(const T& item);
+    T get() const;
+private:
+    T data;
 };
 ```
 
-#### 4.3 using关键字
-```cpp
-// using声明（推荐）
-using std::cout;
-using std::endl;
+## 异常处理
 
-// using指令（不推荐，可能污染命名空间）
-using namespace std;
+### try-catch
+```cpp
+try {
+    // 可能抛出异常的代码
+    throw std::runtime_error("错误信息");
+} catch (const std::exception& e) {
+    // 处理异常
+    std::cerr << e.what() << std::endl;
+}
 ```
 
-### 5. 网络编程基础
+## STL基础
 
-#### 5.1 Socket编程
+### 容器
 ```cpp
-// 创建socket
-int sock = socket(AF_INET, SOCK_STREAM, 0);  // TCP Socket
-int sock = socket(AF_INET, SOCK_DGRAM, 0);   // UDP Socket
+// vector
+std::vector<int> vec = {1, 2, 3};
 
-// 设置地址
-struct sockaddr_in addr;
-addr.sin_family = AF_INET;
-addr.sin_port = htons(8080);
-addr.sin_addr.s_addr = INADDR_ANY;
+// map
+std::map<string, int> map;
+map["key"] = 42;
 
-// 基本操作
-bind(sock, (struct sockaddr*)&addr, sizeof(addr));  // 绑定
-listen(sock, 5);                                    // 监听
-accept(sock, nullptr, nullptr);                     // 接受连接
+// string
+std::string str = "Hello";
 ```
 
-### 注意事项
+### 迭代器
+```cpp
+// 基本使用
+for (auto it = vec.begin(); it != vec.end(); ++it) {
+    std::cout << *it << std::endl;
+}
 
-1. 内存管理：
-   - 使用智能指针代替裸指针
-   - 注意配对使用 new/delete 或 malloc/free
-   - 防止内存泄漏
+// 范围for
+for (const auto& item : vec) {
+    std::cout << item << std::endl;
+}
+```
 
-2. 常量使用：
-   - 优先使用 const 确保不可修改性
-   - 考虑使用 constexpr 进行编译期优化
+## 最佳实践
 
-3. 命名空间：
-   - 避免使用 using namespace
-   - 优先使用具体的 using 声明
+### 代码风格
+- 使用有意义的变量名
+- 保持一致的缩进
+- 适当添加注释
+- 遵循项目编码规范
 
-4. 错误处理：
-   - 合理使用异常处理
-   - 注意资源的正确释放
+### 性能优化
+- 避免不必要的拷贝
+- 合理使用引用
+- 注意内存管理
+- 考虑编译期优化
 
-### 参考资料
+### 调试技巧
+- 使用断言
+- 合理打印日志
+- 善用调试工具
+- 编写单元测试
+
+## 参考资料
 
 - C++ Primer
 - Effective C++
-- C++ 参考手册
+- C++ 标准库
+- C++ 核心指南

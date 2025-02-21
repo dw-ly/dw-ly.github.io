@@ -11,11 +11,11 @@ tags:
   - 面向对象
 ---
 
-## C++ 类完全指南
+# C++ 类完全指南
 
-### 1. 类的基本概念
+## 类的基本概念
 
-#### 1.1 定义与声明
+### 定义与声明
 ```cpp
 class MyClass {
 public:
@@ -31,15 +31,15 @@ private:
 };
 ```
 
-#### 1.2 访问控制
+### 访问控制
 - `public`: 外部可访问
 - `protected`: 仅子类可访问
 - `private`: 仅本类可访问
 - 默认为 private（区别于 struct 默认为 public）
 
-### 2. 类成员
+## 类成员
 
-#### 2.1 成员函数
+### 成员函数
 ```cpp
 class Example {
 public:
@@ -63,7 +63,7 @@ private:
 };
 ```
 
-#### 2.2 this 指针
+### this 指针
 ```cpp
 class Counter {
 public:
@@ -84,7 +84,7 @@ private:
 };
 ```
 
-#### 2.3 内联函数
+### 内联函数
 ```cpp
 class Math {
 public:
@@ -95,9 +95,9 @@ public:
 };
 ```
 
-### 3. 特殊成员函数
+## 特殊成员函数
 
-#### 3.1 构造函数
+### 构造函数
 ```cpp
 class Person {
 public:
@@ -117,7 +117,7 @@ private:
 };
 ```
 
-#### 3.2 析构函数
+### 析构函数
 ```cpp
 class ResourceHandler {
 public:
@@ -130,9 +130,9 @@ private:
 };
 ```
 
-### 4. 友元
+## 友元
 
-#### 4.1 友元函数
+### 友元函数
 ```cpp
 class Box {
     friend void printBox(const Box& b);  // 友元函数声明
@@ -146,7 +146,7 @@ void printBox(const Box& b) {
 }
 ```
 
-#### 4.2 友元类
+### 友元类
 ```cpp
 class A {
     friend class B;  // B 是 A 的友元类
@@ -163,9 +163,9 @@ public:
 };
 ```
 
-### 5. 继承与多态
+## 继承与多态
 
-#### 5.1 基本继承
+### 基本继承
 ```cpp
 class Animal {
 public:
@@ -182,7 +182,7 @@ public:
 };
 ```
 
-#### 5.2 虚继承
+### 虚继承
 ```cpp
 class A { /*...*/ };
 class B : virtual public A { /*...*/ };
@@ -190,7 +190,7 @@ class C : virtual public A { /*...*/ };
 class D : public B, public C { /*...*/ };  // 避免菱形继承问题
 ```
 
-#### 5.3 菱形继承
+### 菱形继承
 ```cpp
 // 菱形继承问题
 class Base {
@@ -235,7 +235,7 @@ public:
 };
 ```
 
-#### 5.4 虚函数表和内存布局
+### 虚函数表和内存布局
 ```cpp
 class Base {
 public:
@@ -272,7 +272,7 @@ Derived vtable:
 */
 ```
 
-#### 5.5 类型转换
+### 类型转换
 ```cpp
 class Base {
 public:
@@ -307,7 +307,7 @@ void typeCastExample() {
 }
 ```
 
-#### 5.6 多重继承
+### 多重继承
 ```cpp
 class Interface1 {
 public:
@@ -332,9 +332,9 @@ public:
 };
 ```
 
-### 6. 高级特性
+## 高级特性
 
-#### 6.1 嵌套类
+### 嵌套类
 ```cpp
 class Outer {
 public:
@@ -346,7 +346,7 @@ private:
 };
 ```
 
-#### 6.2 运算符重载
+### 运算符重载
 ```cpp
 class Complex {
 public:
@@ -359,7 +359,7 @@ private:
 };
 ```
 
-#### 6.3 CRTP (奇异递归模板模式)
+### CRTP (奇异递归模板模式)
 ```cpp
 template<class Derived>
 class Base {
@@ -378,7 +378,7 @@ public:
 };
 ```
 
-#### 6.4 成员函数指针
+### 成员函数指针
 ```cpp
 class MyClass {
 public:
@@ -399,7 +399,7 @@ void pointerToMemberExample() {
 }
 ```
 
-### 7. 最佳实践
+## 最佳实践
 
 1. 构造函数：
    - 使用初始化列表
@@ -416,7 +416,7 @@ void pointerToMemberExample() {
    - override 关键字标记重写函数
    - 使用 final 防止继续继承
 
-### 8. 注意事项
+## 注意事项
 
 1. 访问控制：
    - 数据成员通常声明为私有
@@ -433,7 +433,7 @@ void pointerToMemberExample() {
    - 处理异常情况
    - 保护类的不变性
 
-### 9. 性能优化
+## 性能优化
 
 1. 虚函数调用开销：
    - 每次调用需要查找虚函数表
@@ -450,7 +450,7 @@ void pointerToMemberExample() {
    - 访问虚基类成员需要间接寻址
    - 构造和析构更复杂
 
-### 10. 调试技巧
+## 调试技巧
 
 1. 虚函数调试：
 ```cpp

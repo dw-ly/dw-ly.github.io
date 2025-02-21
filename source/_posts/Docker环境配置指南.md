@@ -9,13 +9,11 @@ tags:
   - 环境配置
 ---
 
-## Docker 环境搭建基础
+# Docker环境配置指南
 
-本文介绍 Docker 环境的基本配置和使用方法。
+## 安装配置
 
-### 1. 安装 Docker
-
-Windows 环境下的安装步骤：
+### Windows 环境安装
 
 ```bash
 # 下载 Docker Desktop
@@ -26,13 +24,15 @@ docker --version
 docker-compose --version
 ```
 
-### 2. 基本概念
+## 基本概念
 
 - 镜像（Image）：容器的模板
 - 容器（Container）：运行中的实例
 - Dockerfile：构建镜像的脚本
 
-### 3. 常用命令
+## 常用命令
+
+### 容器操作
 
 ```bash
 # 拉取镜像
@@ -46,6 +46,36 @@ docker ps
 
 # 停止容器
 docker stop container_id
+```
+
+### 镜像管理
+
+```bash
+# 查看本地镜像
+docker images
+
+# 删除镜像
+docker rmi image_name
+
+# 构建镜像
+docker build -t name:tag .
+```
+
+## 进阶使用
+
+### Docker Compose
+
+```yaml
+version: '3'
+services:
+  web:
+    image: nginx
+    ports:
+      - "80:80"
+  db:
+    image: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=secret
 ```
 
 更多 Docker 使用技巧将在后续文章中详细介绍。

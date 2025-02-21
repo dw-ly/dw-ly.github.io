@@ -12,15 +12,11 @@ tags:
   - 序列化
 ---
 
-## JsonCpp 简介
+# JsonCpp 使用指南
 
-JsonCpp 是一个用于解析和生成 JSON 数据的 C++ 库，它提供了简单易用的 API 和高效的性能。
+## 安装配置
 
-### 1. 安装配置
-
-#### 1.1 Linux 环境安装
-
-1. 使用包管理器安装：
+### Linux 环境安装
 ```bash
 # Ubuntu/Debian
 sudo apt-get install libjsoncpp-dev
@@ -29,129 +25,36 @@ sudo apt-get install libjsoncpp-dev
 sudo yum install jsoncpp-devel
 ```
 
-2. 从源码编译安装：
+### Windows 环境配置
 ```bash
-git clone https://github.com/open-source-parsers/jsoncpp
-cd jsoncpp
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
-sudo ldconfig
+# 下载源码
+# 从 JsonCpp GitHub 下载发布版本
+
+# 配置项目
+- 添加包含目录
+- 链接库文件
 ```
 
-#### 1.2 Windows 环境配置（VS2019）
+## 项目集成
 
-1. 下载源码：
-   - 访问 [JsonCpp GitHub](https://github.com/open-source-parsers/jsoncpp)
-   - 下载发布版本（如 jsoncpp-svn-release-0.6.0-rc2）
-
-2. 项目配置：
-   - 将源码添加到项目
-   - 配置包含目录和库目录
-   - 链接相应的库文件
-
-### 2. 项目集成
-
-#### 2.1 Linux 环境使用
-
-1. 查看库文件位置：
-```bash
-# 查看库文件
-dpkg -L libjsoncpp-dev
-
-# 查看头文件位置
-find /usr -name "json.h"
-```
-
-2. CMake 配置方式：
+### CMake配置
 ```cmake
-# CMakeLists.txt
-cmake_minimum_required(VERSION 3.10)
-project(YourProject)
-
-# 方式1：使用 pkg-config
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(JSONCPP jsoncpp)
-include_directories(${JSONCPP_INCLUDE_DIRS})
-link_directories(${JSONCPP_LIBRARY_DIRS})
-
-# 方式2：直接指定库
+# 查找 JsonCpp
 find_package(JsonCpp REQUIRED)
 include_directories(${JSONCPP_INCLUDE_DIRS})
-
-# 创建可执行文件并链接
-add_executable(your_program main.cpp)
-target_link_libraries(your_program 
-    jsoncpp
-    ${JSONCPP_LIBRARIES}
-)
+target_link_libraries(your_target jsoncpp)
 ```
 
-3. Makefile 配置方式：
-```makefile
-CXX = g++
-CXXFLAGS = -std=c++11 -Wall
-LIBS = -ljsoncpp
-
-TARGET = your_program
-SRCS = main.cpp
-OBJS = $(SRCS:.cpp=.o)
-
-$(TARGET): $(OBJS)
-    $(CXX) -o $@ $^ $(LIBS)
-
-%.o: %.cpp
-    $(CXX) $(CXXFLAGS) -c $<
-
-clean:
-    rm -f $(OBJS) $(TARGET)
+### 头文件引入
+```cpp
+#include <json/json.h>  // 标准引入方式
+// 或
+#include <jsoncpp/json/json.h>  // 某些系统的引入方式
 ```
 
-4. 编译命令：
-```bash
-# 使用 CMake
-mkdir build && cd build
-cmake ..
-make
+## 基本使用
 
-# 使用 Makefile
-make
-```
-
-#### 2.2 常见问题解决
-
-1. 找不到库文件：
-```bash
-# 更新库缓存
-sudo ldconfig
-
-# 检查库是否安装
-ldconfig -p | grep jsoncpp
-```
-
-2. 链接错误解决：
-```bash
-# 确保正确链接
-g++ -o program main.cpp -ljsoncpp
-
-# 如果库在非标准位置
-g++ -o program main.cpp -L/path/to/lib -ljsoncpp
-```
-
-3. 头文件问题：
-```bash
-# 查找头文件位置
-locate json/json.h
-
-# 编译时指定包含路径
-g++ -o program main.cpp -I/usr/include/jsoncpp -ljsoncpp
-```
-
-### 3. 基本使用
-
-#### 3.1 JSON 写入
+### JSON 写入
 ```cpp
 // 创建 JSON 对象
 Json::Value root;
@@ -170,7 +73,7 @@ Json::StyledWriter styledWriter;
 std::string prettyString = styledWriter.write(root);
 ```
 
-#### 3.2 JSON 解析
+### JSON 解析
 ```cpp
 // 从字符串解析
 Json::Value root;
@@ -191,7 +94,7 @@ if (success) {
 }
 ```
 
-#### 3.3 类型判断和转换
+### 类型判断和转换
 ```cpp
 Json::Value value;
 
@@ -207,9 +110,9 @@ if (value.isString()) {
 }
 ```
 
-### 4. 高级特性
+## 高级特性
 
-#### 4.1 自定义序列化
+### 自定义序列化
 ```cpp
 class Person {
 public:
@@ -230,7 +133,7 @@ public:
 };
 ```
 
-#### 4.2 错误处理
+### 错误处理
 ```cpp
 Json::CharReaderBuilder builder;
 Json::Value root;
@@ -247,7 +150,7 @@ try {
 }
 ```
 
-### 5. 性能优化
+## 性能优化
 
 1. 使用 FastWriter：
 ```cpp
@@ -268,7 +171,7 @@ Json::CharReaderBuilder builder;
 // 在循环中重用这些对象
 ```
 
-### 6. 常见问题解决
+## 常见问题解决
 
 1. 链接错误：
    - 确保正确链接了 JsonCpp 库
@@ -285,7 +188,7 @@ Json::CharReaderBuilder builder;
    - 适时清理不再使用的对象
    - 考虑使用流式解析处理大文件
 
-### 注意事项
+## 注意事项
 
 1. 版本兼容：
    - 注意 API 变化（如 Reader 到 CharReader 的变化）
@@ -302,7 +205,7 @@ Json::CharReaderBuilder builder;
    - 避免不必要的转换
    - 合理使用格式化输出
 
-### 参考资料
+## 参考资料
 
 - [JsonCpp GitHub](https://github.com/open-source-parsers/jsoncpp)
 - [JsonCpp API 文档](http://open-source-parsers.github.io/jsoncpp-docs/doxygen/index.html)
