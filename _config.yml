@@ -102,6 +102,6 @@ theme: butterfly
 ## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
   type: git
-  repo: https://github.com/dw-ly/dw-ly.github.io.git
+  repo: git@github.com:dw-ly/dw-ly.github.io.git
   branch: main
   message: "Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
