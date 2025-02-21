@@ -1,6 +1,6 @@
 ---
 title: Shell脚本编程基础
-date: 2024-02-21
+date: 2025-02-21
 categories:
   - 语言
   - 脚本语言

@@ -830,10 +830,8 @@ activate_power_mode:
 # canvas_ribbon
 # See: https://github.com/hustcc/ribbon.js
 canvas_ribbon:
-  enable: false
-  # The size of ribbon
+  enable: true
   size: 150
-  # The opacity of ribbon (0 ~ 1)
   alpha: 0.6
   zIndex: -1
   click_to_change: false
@@ -866,7 +864,7 @@ fireworks:
 
 # Mouse click effects: Heart symbol
 click_heart:
-  enable: false
+  enable: true
   mobile: false
 
 # Mouse click effects: words
@@ -964,72 +962,25 @@ pjax:
   exclude:
     # - /xxxxxx/
 
-# Inject the css and script (aplayer/meting)
-aplayerInject:
-  enable: false
-  per_page: true
-
-# Snackbar - Toast Notification
-# https://github.com/polonel/SnackBar
-# position: top-left / top-center / top-right / bottom-left / bottom-center / bottom-right
-snackbar:
-  enable: false
-  position: bottom-left
-  # The background color of Toast Notification in light mode and dark mode
-  bg_light: '#49b1f5'
-  bg_dark: '#1f1f1f'
-
-# Instant.page
-# https://instant.page/
-instantpage: false
-
-# Lazyload
-# https://github.com/verlok/vanilla-lazyload
-lazyload:
-  enable: false
-  # Specify the field to use lazyload (site or post)
-  field: site
-  placeholder:
-  blur: false
-
-# PWA
-# See https://github.com/JLHwung/hexo-offline
-# ---------------
-pwa:
-  enable: false
-  manifest:
-  apple_touch_icon:
-  favicon_32_32:
-  favicon_16_16:
-  mask_icon:
-
-# Open graph meta tags
-# https://hexo.io/docs/helpers#open-graph
-Open_Graph_meta:
-  enable: true
-  option:
-    # twitter_card:
-    # twitter_image:
-    # twitter_id:
-    # twitter_site:
-    # google_plus:
-    # fb_admins:
-    # fb_app_id:
-
-# Structured Data
-# https://developers.google.com/search/docs/guides/intro-structured-data
-structured_data: true
-
-# Add the vendor prefixes to ensure compatibility
-css_prefix: true
-
 # Inject
 # Insert the code to head (before '</head>' tag) and the bottom (before '</body>' tag)
 inject:
   head:
-    # - <link rel="stylesheet" href="/xxx.css">
+    - <script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js"></script>
   bottom:
-    # - <script src="xxxx"></script>
+    - |
+      <script>
+        document.addEventListener('DOMContentLoaded', function() {
+          // 修复图标问题
+          const icons = document.querySelectorAll('.info img');
+          icons.forEach(icon => {
+            icon.onerror = function() {
+              // 如果图标加载失败，使用默认图标
+              this.src = '/img/favicon.png';
+            };
+          });
+        });
+      </script>
 
 # CDN Settings
 # Don't modify the following settings unless you know how they work

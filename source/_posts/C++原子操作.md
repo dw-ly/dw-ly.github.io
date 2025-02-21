@@ -1,6 +1,6 @@
 ---
 title: C++原子操作
-date: 2024-02-21
+date: 2025-02-21
 categories:
   - 编程
   - C++

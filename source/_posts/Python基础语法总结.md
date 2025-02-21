@@ -1,6 +1,6 @@
 ---
 title: Python基础语法总结
-date: 2024-02-21
+date: 2025-02-21
 categories:
   - 语言
   - 编程语言

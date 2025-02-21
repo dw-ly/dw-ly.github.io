@@ -1,0 +1,87 @@
+# 开发工具
+开发工具:
+  - name: Github
+    url: https://github.com/
+    icon: https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png
+    desc: 全球最大的代码托管平台
+
+  - name: VS Code
+    url: https://code.visualstudio.com/
+    icon: https://code.visualstudio.com/assets/images/code-stable.png
+    desc: 强大的代码编辑器
+
+  - name: DevDocs
+    url: https://devdocs.io/
+    icon: https://devdocs.io/images/icon-192.png
+    desc: 开发文档聚合平台
+
+# 学习资源
+学习资源:
+  - name: MDN
+    url: https://developer.mozilla.org/
+    icon: https://developer.mozilla.org/apple-touch-icon.6803c6f0.png
+    desc: Web技术权威文档
+
+  - name: W3Schools
+    url: https://www.w3schools.com/
+    icon: https://www.w3schools.com/favicon.ico
+    desc: Web开发学习平台
+
+  - name: 菜鸟教程
+    url: https://www.runoob.com/
+    icon: https://static.runoob.com/images/favicon.ico
+    desc: 中文编程学习平台
+
+  - name: Stack Overflow
+    url: https://stackoverflow.com/
+    icon: https://cdn.sstatic.net/Sites/stackoverflow/Img/favicon.ico
+    desc: 全球最大的程序员问答社区
+
+  - name: 知乎
+    url: https://www.zhihu.com/
+    icon: https://static.zhihu.com/heifetz/favicon.ico
+    desc: 中文知识问答社区
+
+# AI工具
+AI工具:
+  - name: ChatGPT
+    url: https://chat.openai.com/
+    icon: https://chat.openai.com/favicon.ico
+    desc: OpenAI聊天机器人
+
+  - name: GitHub Copilot
+    url: https://github.com/features/copilot
+    icon: https://github.githubassets.com/images/modules/site/copilot/head.png
+    desc: AI编程助手
+
+  - name: Cursor
+    url: https://cursor.sh/
+    icon: https://cursor.sh/favicon.ico
+    desc: AI驱动的代码编辑器
+
+# 实用工具
+实用工具:
+  - name: 时间戳转换
+    url: https://tool.lu/timestamp/
+    icon: https://tool.lu/favicon.ico
+    desc: 在线时间戳转换工具
+
+  - name: JSON在线解析
+    url: https://www.json.cn/
+    icon: https://www.json.cn/favicon.ico
+    desc: JSON格式化工具
+
+  - name: Can I Use
+    url: https://caniuse.com/
+    icon: https://caniuse.com/img/favicon-128.png
+    desc: 浏览器特性兼容性查询
+
+  - name: 坚果云
+    url: https://www.jianguoyun.com/
+    icon: https://www.jianguoyun.com/favicon.ico
+    desc: 专业的文件同步和共享工具
+
+  - name: 极空间
+    url: https://space.linkall.com/
+    icon: https://space.linkall.com/favicon.ico
+    desc: 极空间远程访问入口 

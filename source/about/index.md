@@ -12,14 +12,14 @@ comments: false
 ## 技术栈
 
 - 前端：HTML, CSS, JavaScript, Vue.js, React
-- 后端：Node.js, Python, Java
-- 数据库：MySQL, MongoDB
+- 后端：Node.js, Python, c++
+- 数据库：MySQL, MongoDB，radis
 - 其他：Git, Docker, Linux
 
 ## 联系方式
 
 - GitHub: [dw-ly](https://github.com/dw-ly)
-- Email: your.email@domain.com
+- Email: dwlyshb@163.com
 
 ## 关于本站
 
