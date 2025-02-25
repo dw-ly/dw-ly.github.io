@@ -420,7 +420,7 @@ copy:
 
 # Need to install the hexo-wordcount plugin
 wordcount:
-  enable: false
+  enable: true
   # Display the word count of the article in post meta
   post_wordcount: true
   # Display the time to read the article in post meta
@@ -910,9 +910,9 @@ abcjs:
 # Mermaid
 # https://github.com/mermaid-js/mermaid
 mermaid:
-  enable: false
+  enable: true
   # Write Mermaid diagrams using code blocks
-  code_write: false
+  code_write: true
   # built-in themes: default / forest / dark / neutral
   theme:
     light: default
@@ -967,6 +967,8 @@ pjax:
 inject:
   head:
     - <script src="https://cdn.jsdelivr.net/npm/ribbon.js@latest/dist/ribbon.min.js"></script>
+    - <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    - <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
   bottom:
     - |
       <script>
@@ -979,6 +981,15 @@ inject:
               this.src = '/img/favicon.png';
             };
           });
+          
+          // 初始化 Mermaid
+          if (window.mermaid) {
+            mermaid.initialize({
+              startOnLoad: true,
+              theme: document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'default',
+              securityLevel: 'loose'
+            });
+          }
         });
       </script>
 
