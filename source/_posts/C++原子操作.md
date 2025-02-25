@@ -1,6 +1,6 @@
 ---
 title: C++原子操作
-date: 2025-02-21
+date: 2024-02-21
 categories:
   - 编程
   - C++
@@ -14,6 +14,74 @@ tags:
 # C++原子操作
 
 ## 基本概念
+
+### 原子类型
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 100, 'rankSpacing': 100, 'fontSize': 18}}}%%
+flowchart TB
+    classDef type fill:#fff3e0,stroke:#e65100,stroke-width:4px,font-size:24px
+    classDef items fill:#fff,stroke:#333,stroke-width:2px,font-size:20px
+
+    B[原子类型]:::type
+    B --> B1[atomic&lt;T&gt;]:::items
+    B --> B2[atomic_flag]:::items
+```
+
+### 原子操作类型
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 100, 'rankSpacing': 100, 'fontSize': 18}}}%%
+flowchart TB
+    classDef ops fill:#f3e5f5,stroke:#4a148c,stroke-width:4px,font-size:24px
+    classDef items fill:#fff,stroke:#333,stroke-width:2px,font-size:20px
+
+    C[原子操作类型]:::ops
+    C --> C1[load/store]:::items
+    C --> C2[exchange]:::items
+    C --> C3[compare_exchange]:::items
+    C --> C4[fetch_add/sub]:::items
+    C --> C5[fetch_and/or/xor]:::items
+```
+
+### 内存序类型
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 100, 'rankSpacing': 100, 'fontSize': 18}}}%%
+flowchart TB
+    classDef order fill:#e8f5e9,stroke:#1b5e20,stroke-width:4px,font-size:24px
+    classDef items fill:#fff,stroke:#333,stroke-width:2px,font-size:20px
+
+    D[内存序]:::order
+    D --> D1[memory_order_relaxed]:::items
+    D --> D2[memory_order_consume]:::items
+    D --> D3[memory_order_acquire]:::items
+    D --> D4[memory_order_release]:::items
+    D --> D5[memory_order_acq_rel]:::items
+    D --> D6[memory_order_seq_cst]:::items
+```
+
+### 内存序关系
+```mermaid
+%%{init: {'flowchart': {'nodeSpacing': 120, 'rankSpacing': 100, 'fontSize': 18}}}%%
+flowchart LR
+    classDef relaxed fill:#ffebee,stroke:#b71c1c,stroke-width:4px,font-size:20px
+    classDef consume fill:#fff3e0,stroke:#e65100,stroke-width:4px,font-size:20px
+    classDef acquire fill:#e8f5e9,stroke:#1b5e20,stroke-width:4px,font-size:20px
+    classDef release fill:#e3f2fd,stroke:#0d47a1,stroke-width:4px,font-size:20px
+    classDef acq_rel fill:#f3e5f5,stroke:#4a148c,stroke-width:4px,font-size:20px
+    classDef seq_cst fill:#fce4ec,stroke:#880e4f,stroke-width:4px,font-size:20px
+
+    R[relaxed]:::relaxed
+    C[consume]:::consume
+    A[acquire]:::acquire
+    RE[release]:::release
+    AR[acq_rel]:::acq_rel
+    S[seq_cst]:::seq_cst
+
+    R --> C
+    C --> A
+    A --> AR
+    RE --> AR
+    AR --> S
+```
 
 ### 什么是原子操作
 原子操作是指不可被中断的一个或一系列操作。在多线程环境中，原子操作可以保证数据的一致性，避免竞态条件。
@@ -466,6 +534,30 @@ void thread2() {
         z.fetch_add(1, std::memory_order_seq_cst);
     }
 }
+```
+
+### 内存序关系
+```mermaid
+flowchart LR
+    classDef relaxed fill:#ffebee,stroke:#b71c1c,stroke-width:2px
+    classDef consume fill:#fff3e0,stroke:#e65100,stroke-width:2px
+    classDef acquire fill:#e8f5e9,stroke:#1b5e20,stroke-width:2px
+    classDef release fill:#e3f2fd,stroke:#0d47a1,stroke-width:2px
+    classDef acq_rel fill:#f3e5f5,stroke:#4a148c,stroke-width:2px
+    classDef seq_cst fill:#fce4ec,stroke:#880e4f,stroke-width:2px
+
+    R[memory_order_relaxed]:::relaxed
+    C[memory_order_consume]:::consume
+    A[memory_order_acquire]:::acquire
+    RE[memory_order_release]:::release
+    AR[memory_order_acq_rel]:::acq_rel
+    S[memory_order_seq_cst]:::seq_cst
+
+    R --> C
+    C --> A
+    A --> AR
+    RE --> AR
+    AR --> S
 ```
 
 ## 实践示例
